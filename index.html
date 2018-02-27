@@ -85,8 +85,10 @@
      
 	
     <div class="col-md-5">
-	
+	<p id="content">
+ 
         <h2 class="textDarkOrchid">Education:</h2>
+</p>
 <script>
    education = [{
        'title': ' Hong Kong Baptist University- Chinese Journalism Concentration (Year 3) ',
@@ -98,7 +100,6 @@
        location: 'Hung Shui Kui'
    }]
    o = document.getElementById('content')
-       //o.innerHTML = '<ul><li>Item1</li><li>Item2</li></ul>'
 
    allItemString = ''
    for (i = 0; i <education.length; i++) {
@@ -112,9 +113,6 @@
            '</li>'
        allItemString = allItemString + ItemString
    }
-
-
-
 
    o.innerHTML = '<ul>' + allItemString + '</ul>'
        //console.log('it works')
