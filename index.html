@@ -87,8 +87,39 @@
     <div class="col-md-5">
 	
         <h2 class="textDarkOrchid">Education:</h2>
-        <p>2010-2015 Shung Tak Catholic English College</p>
-        <p>2015-Present Hong Kong Baptist University- Chinese Journalism Concentration (Year 3)</p>
+<script>
+   education = [{
+       'title': ' Hong Kong Baptist University- Chinese Journalism Concentration (Year 3) ',
+       date: '2015-present',
+       location: 'Kowloon Tong'
+   }, {
+       'title': 'Shung Tak Catholic English College',
+       date: '2010-2015',
+       location: 'Hung Shui Kui'
+   }]
+   o = document.getElementById('content')
+       //o.innerHTML = '<ul><li>Item1</li><li>Item2</li></ul>'
+
+   allItemString = ''
+   for (i = 0; i < experiences.length; i++) {
+       console.log(i)
+       ItemString = '<li>' +
+           education[i]['title'] +
+           '    ' +
+           education [i]['date'] +
+           '    ' +
+           education[i]['location'] +
+           '</li>'
+       allItemString = allItemString + ItemString
+   }
+
+
+
+
+   o.innerHTML = '<ul>' + allItemString + '</ul>'
+       //console.log('it works')
+</script>
+
      </div>
 	</div>
 	
