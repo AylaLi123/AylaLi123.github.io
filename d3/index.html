@@ -26,25 +26,74 @@
 
             }, {
                 'height': 180,
-                'weight': 70,
+                'weight': 80,
 
             }, {
-                'height': 180,
-                'weight': 80,
+                'height': 100,
+                'weight': 40,
 
             }
 
         ];
-        //svg.append('circle').attr('cx', 170).attr('cy', 70).attr('r', 10); 
-        //svg.append('circle').attr('cx', 160).attr('cy', 50).attr('r', 10); 
-        //svg.append('circle').attr('cx', 180).attr('cy', 70).attr('r', 10);
-        //svg.append('circle').attr('cx', 180).attr('cy', 80).attr('r', 10);
+
         var frameHeight = 150;
-        for (i = 0; i < data.length; i++) {
-            i = 0;
-            var x = data[i]['height'];
-            var y = frameHeight - data[i]['wieght'];
-            svg.append('circle').attr('cx', x).attr('cy', y).attr('r', 5);
-        }
+
+        svg
+            .selectAll('circle')
+            .data(data)
+            .enter()
+            .append('circle')
+            .attr('cx', function(d) {
+                return d['height'];
+            })
+            .attr('cy', function(d) {
+                return frameHeight - d['weight'];
+            })
+            .attr('r', function(d) {
+                //return d['weight'] / 10;
+                return Math.sqrt(d['weight'] / 10);
+            })
+            .attr('fill', 'blue');
     </script>
+
+
+
+
+    <!-- svg.append('circle').attr('cx', 170).attr('cy', 70).attr('r', 10); 
+    svg.append('circle').attr('cx', 160).attr('cy', 50).attr('r', 10); 
+    svg.append('circle').attr('cx', 180).attr('cy', 70).attr('r', 10); 
+    svg.append('circle').attr('cx', 180).attr('cy',
+    80).attr('r', 10); 
+    <script> -->
+    <!--    var svg = d3.select('svg');
+             svg.remove.();
+         var data = [{
+                     'height': 170,
+                     'weight': 70,
+
+            }, {
+                  'height': 160,
+                  'weight': 50,
+
+              }, {
+                 'height': 180,
+                 'weight': 70,
+
+               }, {
+                  'height': 180,
+                'weight': 80,
+
+          }
+
+           ];
+
+            var frameHeight = 150;
+           for (i = 0; i < data.length; i++) {
+                i = 0;
+               var x = data[i]['height'];
+                var y = frameHeight - data[i]['wieght'];
+               svg.append('circle').attr('cx', x).attr('cy', y).attr('r', 5);
+            }
+        -->
+    </svg>
 </body>
