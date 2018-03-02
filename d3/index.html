@@ -1,0 +1,50 @@
+<head>
+</head>
+<script src="https://d3js.org/d3.v5.js"></script>
+
+
+
+
+<body>
+    <h1>Demo of bubble chart in D3</h1>
+
+    <svg>
+    <text x=10 y=10>Bubble</text>
+
+</svg>
+
+    <script>
+        var svg = d3.select('svg');
+        //svg.remove.();
+        var data = [{
+                'height': 170,
+                'weight': 70,
+
+            }, {
+                'height': 160,
+                'weight': 50,
+
+            }, {
+                'height': 180,
+                'weight': 70,
+
+            }, {
+                'height': 180,
+                'weight': 80,
+
+            }
+
+        ];
+        //svg.append('circle').attr('cx', 170).attr('cy', 70).attr('r', 10); 
+        //svg.append('circle').attr('cx', 160).attr('cy', 50).attr('r', 10); 
+        //svg.append('circle').attr('cx', 180).attr('cy', 70).attr('r', 10);
+        //svg.append('circle').attr('cx', 180).attr('cy', 80).attr('r', 10);
+        var frameHeight = 150;
+        for (i = 0; i < data.length; i++) {
+            i = 0;
+            var x = data[i]['height'];
+            var y = frameHeight - data[i]['wieght'];
+            svg.append('circle').attr('cx', x).attr('cy', y).attr('r', 5);
+        }
+    </script>
+</body>
