@@ -4,6 +4,10 @@
 	
     <title>Data Visualisation Homework 7</title>
     <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <script src="https://d3js.org/d3.v5.js"></script>
 
@@ -18,124 +22,173 @@
     <script src="https://d3js.org/d3-time-format.v2.min.js"></script>
     <script src="https://d3js.org/d3-scale.v2.min.js"></script>
 
+	<div class = "container">
+		  <div class="jumbotron">
     <h1>The 2018-2019 Budget</h1>
-   
+   </div>
  <div id="chart">
-        <div>Title of the graph</div>
-        <svg width="300" height="200"></svg>
+        <div>Government expenditure for Education</div>
+        <svg width="500" height="500"></svg>
     </div>
 
     <script>
-        var svg = d3.select('#chart svg')
-            // svg
-            //     .append('circle')
-            //     .attr('cx', 50)
-            //     .attr('cy', 160)
-            //     .attr('r', 10)
-        var gdpScale = d3.scaleLinear()
-            .domain([0, 300000])
-            .range([0, 300])
-        var lifeScale = d3.scaleLinear()
-            .domain([0, 100])
-            .range([200, 0])
-        function updateChart(data) {
-            var circles = svg
+            var x = d3.scaleLinear()
+            .domain([0, 100]) //range of  your raw data
+            .range([0, 500]); //range of svg coordinates
+
+        var y = d3.scaleLinear()
+            .domain([2016, 2019]) //range of  your raw data
+            .range([500, 0]); //range of svg coordinates
+
+
+        var xAxis = d3.axisBottom().scale(x);
+        var yAxis = d3.axisLeft().scale(y);
+
+        var svg = d3.select('svg');
+        //svg.remove.();
+
+        svg.append('g')
+            .attr('transform', 'translate(20,200)') //translate(x,y)
+            .call(xAxis);
+
+        svg.append('g')
+            .attr('transform', 'translate(20,0)') //translate(x,y)
+            .call(yAxis);
+	    
+	    var 20162017 = [{
+		 
+            'education': 75.5,
+	    }, {
+           
+            'education': 80.1,
+		'education': 80.1,
+		'education': 80.1,
+
+        }];
+
+        var 20172018 = [{
+            'height': 120,
+            'weight': 20,
+
+        }, {
+            'height': 170,
+            'weight': 80,
+
+        }, {
+            'height': 100,
+            'weight': 60,
+
+        }, {
+            'height': 180,
+            'weight': 50,
+
+        }, {
+            'height': 150,
+            'weight': 80,
+
+        }];
+
+        var dataset = [
+            [2001, [{
+                'height': 170,
+                'weight': 70,
+            }, {
+                'height': 160,
+                'weight': 50,
+            }, {
+                'height': 180,
+                'weight': 70,
+            }, {
+                'height': 180,
+                'weight': 80,
+            }, {
+                'height': 100,
+                'weight': 40,
+            }, ]],
+            [2002, [{
+                'height': 170,
+                'weight': 70,
+            }, {
+                'height': 160,
+                'weight': 50,
+            }, {
+                'height': 180,
+                'weight': 70,
+            }, {
+                'height': 180,
+                'weight': 80,
+            }, {
+                'height': 120,
+                'weight': 80,
+            }, ]],
+            [2003, [{
+                'height': 180,
+                'weight': 70,
+            }, {
+                'height': 170,
+                'weight': 50,
+            }, {
+                'height': 190,
+                'weight': 70,
+            }, {
+                'height': 200,
+                'weight': 80,
+            }, {
+                'height': 130,
+                'weight': 80,
+            }, ]],
+        ]
+
+
+        var frameHeight = 150;
+
+        svg
+            .selectAll('circle')
+            .data(dataset[0][1])
+            .enter()
+            .append('circle')
+            .attr('cx', function(d) {
+                return x(d['height']);
+            })
+            .attr('cy', function(d) {
+                return y(d['weight']);
+                //return frameHeight - d['weight'];
+            })
+            .attr('r', function(d) {
+                //return d['weight'] / 10;
+                return Math.sqrt(d['weight']);
+            })
+            .attr('fill', '#FF0000');
+
+        var keySnapshot = 0;
+
+        d3.interval(function() {
+            keySnapshot = (keySnapshot + 1) % dataset.length;
+            svg
                 .selectAll('circle')
-                .data(data, function(d, i) {
-                    return d['Country']
-                })
-            circles
-                .enter()
-                .append('circle')
-                .style('fill', 'rgba(200,200,0,0.6)')
-                .merge(circles)
+                .data(dataset[keySnapshot][1])
                 .transition()
-                .attr('r', 10)
-                .attr('cx', function(d, i) {
-                    // console.log(d)
-                    // console.log(i)
-                    return gdpScale(d['GDP'])
+                .duration(1000)
+                .attr('cx', function(d) {
+                    return x(d['height']);
                 })
-                .attr('cy', function(d, i) {
-                    // console.log(d)
-                    // console.log(i)
-                    return lifeScale(d['Life'])
+                .attr('cy', function(d) {
+                    return y(d['weight']);
+                    //return frameHeight - d['weight'];
                 })
-            circles
-                .exit()
-                .transition()
-                .style('fill', 'rgba(0,0,0,0)')
-                .on('end', function() {
-                    d3.select(this).remove()
+                .attr('r', function(d) {
+                    return d['weight'] / 10;
+                    //return Math.sqrt(d['weight']);
                 })
-            var texts = svg
-                .selectAll('text.label')
-                .data(data, function(d, i) {
-                    return d['Country']
-                })
-            texts
-                .enter()
-                .append('text')
-                .classed('label', true)
-                .text(function(d, i) {
-                    return d['Country']
-                })
-                .merge(texts)
-                .transition()
-                .attr('x', function(d, i) {
-                    return gdpScale(d['GDP'])
-                })
-                .attr('y', function(d, i) {
-                    return lifeScale(d['Life'])
-                })
-                .transition()
-            texts
-                .exit()
-                .transition()
-                .style('fill', 'rgba(0,0,0,0)')
-                .on('end', function() {
-                    d3.select(this).remove()
-                })
-            // svg.selectAll('circle')
-            //     .on('click', function() {
-            //         console.log('here');
-            //         d3.select(this).remove()
-            //     })
-            // svg.on('click', function() {
-            //     console.log('there');
-            //     svg.append('circle')
-            //         .attr('r', 20)
-            //         .attr('cx', d3.event.clientX)
-            //         .attr('cy', d3.event.clientY)
-            // })
-        }
-        d3.json('data.json', function(myData) {
-            // console.log(myData)
-            var yearIndex = 0
-                // updateChart(myData[yearIndex])
-            d3.interval(function() {
-                console.log(yearIndex)
-                updateChart(myData[yearIndex])
-                yearIndex = (yearIndex + 1) % myData.length
-            }, 1000)
-        })
-        var gdpAxis = d3.axisBottom(gdpScale)
-        svg
-            .append('g')
-            .classed('xaxis', true)
-            .attr('transform', 'translate(0, 150)')
-            .call(gdpAxis)
-        svg.selectAll('.xaxis text')
-            .attr("y", 0)
-            .attr("x", 20)
-            .attr("dy", ".35em")
-            .attr('transform', 'rotate(90)')
-        var lifeAxis = d3.axisLeft(lifeScale)
-        svg
-            .append('g')
-            .attr('transform', 'translate(20, 0)')
-            .call(lifeAxis)
+                //.attr('fill', '#8000ff');
+
+
+        }, 1000)
+
+	    
+	    
     </script>
+	</div>
 </body>
 
 </html>
