@@ -110,7 +110,8 @@ d3.csv("expenditure.csv", function(d) {
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
-
+	
+$("svg").css({top: 600, left: 20, position:'absolute'});
 var format = d3.format(",d");
 
 var color = d3.scaleOrdinal(d3.schemeCategory20c);
