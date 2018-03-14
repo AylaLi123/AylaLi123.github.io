@@ -26,121 +26,9 @@
 		  <div class="jumbotron">
     <h1>The 2018-2019 Budget</h1>
    </div>
+
  <div id="chart">
-        <div>Government expenditure for Education</div>
-        <svg width="960" height="500"></svg>
-    </div>
-
-    <script>
-	    var margin = {top: 20, right: 20, bottom: 50, left: 70},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
-	    
-            var x = d3.scaleLinear()
-            .domain([0, 100.0]) //range of  your raw data
-            .range([0, 500]); //range of svg coordinates
-
-        var y = d3.scaleLinear()
-            .domain([0,100.0 ]) //range of  your raw data
-            .range([500, 0]); //range of svg coordinates
-
-
-        var xAxis = d3.axisBottom().scale(x);
-        var yAxis = d3.axisLeft().scale(y);
-
-        var svg = d3.select('svg');
-        //svg.remove.();
-
-        svg.append('g')
-            .attr('transform', 'translate(0,0)') //translate(x,y)
-            .call(xAxis);
-
-        svg.append('g')
-            .attr('transform', 'translate(0,0)') //translate(x,y)
-            .call(yAxis);
-	    
-	      svg.append("text")
-    .attr("class", "x label")
-    .attr("text-anchor", "middle")
-    .attr("x", width)
-    .attr("y", height - 6)
-    .text("$billion");
-
-svg.append("text")
-    .attr("class", "y label")
-    .attr("text-anchor", "middle")
-    .attr("y", 6)
-    .attr("dy", ".75em")
-    .attr("transform", "rotate(-90)")
-    .text("Year");
-	    
-
-        var dataset = [
-            [education, [{
-                '2016-2017': 75.5,
-		    '2017-2018':80.1,
-             
-            },]],
-            [socialWelfare,[{
-                '2016-2017': 63.5,
-		    '2017-2018':65.8,
-                
-            },]],  
-		[health,[{
-                '2016-2017': 58.7,
-		    '2017-2018':62.8,
-                
-            },]],
-	     
-
-        svg
-            .selectAll('circle')
-            .data(dataset[0][1])
-            .enter()
-            .append('circle')
-            .attr('cx', function(d) {
-                return x(d['2016-2017']);
-            })
-            .attr('cy', function(d) {
-                return y(d['2017-2018']);
-                //return frameHeight - d['weight'];
-            })
-            .attr('r', function(d) {
-                //return d['weight'] / 10;
-                return Math.sqrt(d['2017-2018']);
-            })
-            .attr('fill', '#FF0000');
-
-        var keySnapshot = 0;
-
-        d3.interval(function() {
-            keySnapshot = (keySnapshot + 1) % dataset.length;
-            svg
-                .selectAll('circle')
-                .data(dataset[keySnapshot][1])
-                .transition()
-                .duration(1000)
-                .attr('cx', function(d) {
-                    return x(d['2016-2017']);
-                })
-                .attr('cy', function(d) {
-                    return y(d['2017-2018']);
-                    //return frameHeight - d['weight'];
-                })
-                .attr('r', function(d) {
-                    return d['2017-2018'] / 10;
-                    //return Math.sqrt(d['weight']);
-                })
-                //.attr('fill', '#8000ff');
-
-
-        }, 1000)
-    </script>
-	
-	<br/>
-		<br/>
-		 <div id="chart">
-        <div>Government expenditure for Education</div>
+        <div>Government expenditure</div>
         <svg width="960" height="500"></svg>
     </div>
 		<style>
@@ -173,14 +61,14 @@ var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
 var g = svg.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.tsv("AylaLi123.github.io/homework7/data.tsv", function(d) {
+d3.csv("AylaLi123.github.io/homework7/expenditure.csv", function(d) {
   d.frequency = +d.frequency;
   return d;
 }, function(error, data) {
   if (error) throw error;
 
-  x.domain(data.map(function(d) { return d.letter; }));
-  y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+  x.domain(data.map(function(d) { return d.sector; }));
+  y.domain([0, d3.max(data, function(d) { return d.billion; })]);
 
   g.append("g")
       .attr("class", "axis axis--x")
@@ -201,10 +89,10 @@ d3.tsv("AylaLi123.github.io/homework7/data.tsv", function(d) {
     .data(data)
     .enter().append("rect")
       .attr("class", "bar")
-      .attr("x", function(d) { return x(d.letter); })
-      .attr("y", function(d) { return y(d.frequency); })
+      .attr("x", function(d) { return x(d.sector); })
+      .attr("y", function(d) { return y(d.billion); })
       .attr("width", x.bandwidth())
-      .attr("height", function(d) { return height - y(d.frequency); });
+      .attr("height", function(d) { return height - y(d.billion); });
 });
 
 </script>
