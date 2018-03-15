@@ -76,7 +76,7 @@ d3.csv("expenditure.csv", function(d) {
   g.append("g")
       .attr("class", "axis axis--y")
       .call(d3.axisLeft(y)
-        .ticks(50)
+        .ticks(100)
         .tickFormat(d3.format(".0s")))
     .append("text")
       .attr("transform", "rotate(-90)")
@@ -125,9 +125,10 @@ d3.csv("expenditure.csv", function(d) {
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
 
- var svg = d3.select("#chart").append("svg")
-        .attr("width", 200)
-        .attr("height", 200);
+var svg = d3.select("svg"),
+    margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom;
     
     // svg repositioning
     $("svg").css({top: 1000, left: 200, position:'absolute'});
