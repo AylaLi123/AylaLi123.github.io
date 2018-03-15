@@ -1,34 +1,34 @@
-proposal, amount
-"public health service",10830m
-"enhance elderly services",2492m
-"non-means tested Public Transport Fare Subsidy Scheme",2439m
-"improve rehabilitation services and strengthen community support for PWDs",695m
-"exchange and internship opportunities for young people",500m
-"improve environmental and public cleanliness and law enforcement",396m
-"waste reduction and recycling",389m
-"chinese medicine",377m
-"provide recurrent air-conditioning grant for public sector schools",367m
-"promote arts and culture",282m
-"enhance counter-terrorism capability and preparedness",281m
-"the Belt and Road Initiative and the Guangdong-Hong Kong-Macao Bay Area Development",138m
-"Set up a Commission for the Planning of Human Resources",123m
-"Financial Services Development Council",43m
-"Set up a Commission on Children",12m
-"Implement two tax measures",5800m
-"Research Endowment Fund",3000m
-"Operation Building Bright 2.0",3000m
-"Fire Safety Improvement Works Subsidy Scheme",2000m
-"Qualifications Framework Fund",1200m
-"Countryside Conservation Office",1000m
-"CreateSmart Initiative",1000m
-"Arts and Sport Development Fund (Sports Portion)",1000m
-"elderly and rehabilitation service units",1000m
-"telecommunications companies",774m
-"Short-term Food Assistance Service",447m
-"Partnership Fund for the Disadvantaged",400m
-"Child Development Fund",300m
-"foster arts development for PWDs",250m
-"Hostel Development Fund",12000m
-"Innovation and Technology Fund",10000m
-"smart city development",700m
-"on-street parking meters",304m
+id,value
+publicHealthService,10830
+enhanceElderlyServices,2492
+non-meansTestedPublicTransportFareSubsidyScheme,2439
+improveRehabilitationServicesAndStrengthenCommunitySupportForPWDs,695
+exchangeAndInternshipOpportunitiesForYoungPeople",500
+improveEnvironmentalAndPublicCleanlinessAndLawEnforcement",396
+wasteReductionAndRecycling,389
+chineseMedicine,377
+provideRecurrentAirCconditioningGrantForPublicSectorSchools,367
+promoteArtsAndCulture,282
+enhanceCounterTerrorismCapabilityAndPreparedness,281
+theBeltAndRoadInitiativeAndTheGuangdongHongKongMacaoBayAreaDevelopment,138
+setUpACommissionForThePlanningOfHumanResources,123
+financialServicesDevelopmentCouncil,43
+setUpCommissionOnChildren,12
+implementTwoTaxMeasures,5800
+eesearchEndowmentFund,3000
+operationBuildingBright2,3000
+fireSafetyImprovementWorksSubsidyScheme,2000
+qualificationsFrameworkFund,1200
+countrysideConservationOffice,1000
+createSmartInitiative,1000
+artsAndSportDevelopmentFundSportsPortion,1000
+elderlyAndRehabilitationServiceUnits,1000
+telecommunicationsCompanies,774
+shortTermFoodAssistanceService,447
+partnershipFundForTheDisadvantaged,400
+childDevelopmentFund,300
+fosterArtsDevelopmentForPWDs,250
+hostelDevelopmentFund,12000
+innovationAndTechnologyFund,10000
+smartCityDevelopment,700
+onStreetParkingMeters,304
