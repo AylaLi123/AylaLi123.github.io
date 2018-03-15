@@ -182,8 +182,8 @@ d3.csv("expenditure2.csv", function(d) {
 
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
-    height = +svg.attr("height");
-	$("svg").css({top: 1000, left: 20, position:'absolute'});
+    height = +svg.attr("height"),
+    viewBox= +svg.attr("0 0 100 100");
 
 var format = d3.format(",d");
 
