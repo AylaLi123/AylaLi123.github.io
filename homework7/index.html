@@ -76,7 +76,7 @@ d3.csv("expenditure.csv", function(d) {
   g.append("g")
       .attr("class", "axis axis--y")
       .call(d3.axisLeft(y)
-        .ticks(20)
+        .ticks(10)
         .tickFormat(d3.format(".0s")))
     .append("text")
       .attr("transform", "rotate(-90)")
