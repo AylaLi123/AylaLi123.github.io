@@ -110,9 +110,9 @@ d3.csv("expenditure.csv", function(d) {
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
 
-var svg = d3.select("svg"),
+var svg = d3.select("svg").range([500,500]),
     width = +svg.attr("width"),
-    height = +svg.attr("height");
+    height = +svg.attr("height")
 
 var format = d3.format(",d");
 
