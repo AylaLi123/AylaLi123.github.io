@@ -26,15 +26,15 @@ d3.csv("expenditure.csv", function(d) {
       .call(d3.axisBottom(x));
   g.append("g")
       .attr("class", "axis axis--y")
-       .ticks(20)
-        .tickFormat(d3.formatPrefix(".1", 1e6));
-	
-    .append("text")
+	  .ticks(20)
+	  .tickFormat(d3.formatPrefix(".1", 1e6))
+	.append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 6)
       .attr("dy", "0.71em")
       .attr("text-anchor", "end")
       .text("Billion");
+	
   g.selectAll(".bar")
     .data(data)
     .enter().append("rect")
