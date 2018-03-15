@@ -27,7 +27,7 @@
    </div>
 
  <div id="chart">
-	 <div><h1>Government expenditure in 2016-2017</h></div>
+	 <div><h1>Government's expenditure in 2016-2017</h></div>
         
 <style>
 
@@ -103,8 +103,8 @@ d3.csv("expenditure.csv", function(d) {
 		<p>In the latest Budget, education will continued be the largest expenditure for Hong Kong government, which is 80.1 billion dollars. And the expenditure for social welfare and health is 65.8 billion dollars and 62.8 billion dollars respectively. </p>
 		<br/>
 		<p>Compare to the last year, Hong Kong government’s expenditure on these three sector swill be increased. </p>
-		<div><h1> </h></div>
-		<div id = chart>
+		<div><h1>Government's expenditure in 2017-2018 </h></div>
+		<div id = chart><
 			
 		<style>
 
@@ -125,11 +125,12 @@ d3.csv("expenditure.csv", function(d) {
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
 
-var svg = d3.select("svg"),
-    margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = +svg.attr("width") - margin.left - margin.right,
-    height = +svg.attr("height") - margin.top - margin.bottom,
-	$("svg").css({top: 1500, left: 200, position:'absolute'});
+ var svg = d3.select("#chart").append("svg")
+        .attr("width", 200)
+        .attr("height", 200);
+    
+    // svg repositioning
+    $("svg").css({top: 1000, left: 200, position:'absolute'});
 
 var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
     y = d3.scaleLinear().rangeRound([height, 0]);
@@ -172,7 +173,7 @@ d3.csv("expenditure2.csv", function(d) {
       .attr("width", x.bandwidth())
       .attr("height", function(d) { return height - y(d.amount2); });
 });
-	</div>
+
 	</div>
 </body>
 
