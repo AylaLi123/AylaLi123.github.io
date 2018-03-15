@@ -26,8 +26,9 @@ d3.csv("expenditure.csv", function(d) {
       .call(d3.axisBottom(x));
   g.append("g")
       .attr("class", "axis axis--y")
-	  .ticks(20)
-	  .tickFormat(d3.formatPrefix(".1", 1e6))
+	.call(d3.axisLeft(y)
+        .ticks(20)
+        .tickFormat(d3.format(".0s")))
 	.append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 6)
