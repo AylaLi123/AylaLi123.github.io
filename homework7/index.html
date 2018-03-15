@@ -77,7 +77,7 @@ d3.tsv("data.tsv", function(d) {
       .attr("class", "axis axis--y")
       .call(d3.axisLeft(y)
         .ticks(20)
-        .tickFormat(d3.format(".0s")));
+        .tickFormat(d3.format(".0s")))
     .append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 6)
