@@ -76,7 +76,7 @@ d3.csv("expenditure.csv", function(d) {
   g.append("g")
       .attr("class", "axis axis--y")
       .call(d3.axisLeft(y)
-        .ticks(10)
+        .ticks(50)
         .tickFormat(d3.format(".0s")))
     .append("text")
       .attr("transform", "rotate(-90)")
@@ -111,7 +111,7 @@ d3.csv("expenditure.csv", function(d) {
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
 
-var svg2 = d3.select("svg"),
+var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
@@ -140,7 +140,7 @@ d3.csv("budgetProposal.csv", function(d) {
         }
       });
 
-  var node = svg2.selectAll(".node")
+  var node = svg.selectAll(".node")
     .data(pack(root).leaves())
     .enter().append("g")
       .attr("class", "node")
