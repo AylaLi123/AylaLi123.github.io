@@ -1,19 +1,32 @@
-
-  <head>
-          <meta name="author" content="Ayla">
-	
+head>
+    <meta name="author" content="Ayla">
     <title>Data Visualisation Homework 7</title>
     <meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <script src="https://d3js.org/d3.v5.js"></script>
+<style>
+    p {
+        font-size: 20px;
+    }
+    
+    h1 {
+        color: blue;
+        text-align: center;
+    }
+    
+    h2 {
+        color: purple;
+        text-align: center;
+    }
+</style>
 
 
 <body>
-     <script src="https://d3js.org/d3-array.v1.min.js"></script>
+    <script src="https://d3js.org/d3-array.v1.min.js"></script>
     <script src="https://d3js.org/d3-collection.v1.min.js"></script>
     <script src="https://d3js.org/d3-color.v1.min.js"></script>
     <script src="https://d3js.org/d3-format.v1.min.js"></script>
@@ -22,64 +35,229 @@
     <script src="https://d3js.org/d3-time-format.v2.min.js"></script>
     <script src="https://d3js.org/d3-scale.v2.min.js"></script>
 
-	<div class = "container">
-		  <div class="jumbotron">
-    <h1>The 2018-2019 Budget</h1>
-   </div>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>The 2018-2019 Budget</h1>
+        </div>
+        <div class="row">
+            <div>
+                <h1>Government's expenditure in 2016-2017</h>
+            </div>
+            <div class="col-md-6">
+                <div class="chart">
+                    <style>
+                        .bar {
+                            fill: steelblue;
+                        }
+                        
+                        .bar:hover {
+                            fill: brown;
+                        }
+                        
+                        .axis--x path {
+                            display: none;
+                        }
+                    </style>
+                    <svg width="500" height="600"></svg>
+                    <script src="https://d3js.org/d3.v4.min.js"></script>
+                    <script>
+                        var svg = d3.select("svg"),
+                            margin = {
+                                top: 20,
+                                right: 20,
+                                bottom: 30,
+                                left: 40
+                            },
+                            width = +svg.attr("width") - margin.left - margin.right,
+                            height = +svg.attr("height") - margin.top - margin.bottom;
 
- <div id="chart">
-        <div>Government expenditure</div>
-<body>
- 
-  
-<svg width="960" height="500"></svg>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script>
+                        var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+                            y = d3.scaleLinear().rangeRound([height, 0]);
 
-var svg = d3.select("svg"),
-    margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = +svg.attr("width") - margin.left - margin.right,
-    height = +svg.attr("height") - margin.top - margin.bottom;
+                        var g = svg.append("g")
+                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-    y = d3.scaleLinear().rangeRound([height, 0]);
+                        d3.csv("expenditure.csv", function(d) {
+                            d.amount = +d.amount;
+                            return d;
+                        }, function(error, data) {
+                            if (error) throw error;
 
-var g = svg.append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                            x.domain(data.map(function(d) {
+                                return d.sector;
+                            }));
+                            y.domain([0, d3.max(data, function(d) {
+                                return d.amount;
+                            })]);
 
-d3.tsv("data.tsv", function(d) {
-  d.frequency = +d.frequency;
-  return d;
-}, function(error, data) {
-  if (error) throw error;
+                            g.append("g")
+                                .attr("class", "axis axis--x")
+                                .attr("transform", "translate(0," + height + ")")
+                                .call(d3.axisBottom(x));
 
-  x.domain(data.map(function(d) { return d.letter; }));
-  y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+                            g.append("g")
+                                .attr("class", "axis axis--y")
+                                .call(d3.axisLeft(y)
+                                    .ticks(10)
+                                    .tickFormat(d3.format(".0s")))
+                                .append("text")
+                                .attr("transform", "rotate(-90)")
+                                .attr("y", 6)
+                                .attr("dy", "0.71em")
+                                .attr("text-anchor", "end")
+                                .text("Amount");
 
-  g.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
+                            g.selectAll(".bar")
+                                .data(data)
+                                .enter().append("rect")
+                                .attr("class", "bar")
+                                .attr("x", function(d) {
+                                    return x(d.sector);
+                                })
+                                .attr("y", function(d) {
+                                    return y(d.amount);
+                                })
+                                .attr("width", x.bandwidth())
+                                .attr("height", function(d) {
+                                    return height - y(d.amount);
+                                });
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div>
+                    <p>According to the latest Budget, Education, Social Welfare and Health account for nearly 60% of recurrent government expenditure. As shown on the graph, education is the largest expenditure for Hong Kong government in 2016 to 2017,
+                        which is 75.5 billion dollars. And the expenditure for social welfare and health is 63.5 billion dollars and 58.7 billion dollars respectively. </p>
 
-  g.append("g")
-      .attr("class", "axis axis--y")
-      .call(d3.axisLeft(y).ticks(10, "%"))
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .attr("text-anchor", "end")
-      .text("Frequency");
+                    <p>In the latest Budget, education will continued be the largest expenditure for Hong Kong government, which is 80.1 billion dollars. And the expenditure for social welfare and health is 65.8 billion dollars and 62.8 billion dollars respectively.
+                    </p>
 
-  g.selectAll(".bar")
-    .data(data)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d.letter); })
-      .attr("y", function(d) { return y(d.frequency); })
-      .attr("width", x.bandwidth())
-      .attr("height", function(d) { return height - y(d.frequency); });
-});
+                    <p>Compare to the last year, Hong Kong government’s expenditure on these three sector swill be increased. </p>
+                </div>
+                <div>
+                    <h1>Key Expenditure and Revenue proposals in the 2018-19 Budget Proposal</h>
+                </div>
+            </div>
+        </div>
+        <div>
+            <h2>Policy Address Major Initiatives</h>
+        </div>
 
-</script>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="chart">
+
+                    <svg width="500" height="500" font-family="sans-serif" font-size="20" text-anchor="middle"></svg>
+                    <script src="https://d3js.org/d3.v4.min.js"></script>
+                    <script>
+                        var svg = d3.select("svg"),
+                            width = +svg.attr("width"),
+                            height = +svg.attr("height");
+
+
+                        var format = d3.format(",d");
+
+                        var color = d3.scaleOrdinal(d3.schemeCategory20c);
+
+                        var pack = d3.pack()
+                            .size([width, height])
+                            .padding(1.5);
+
+                        d3.csv("budgetProposal.csv", function(d) {
+                            d.value = +d.value;
+                            if (d.value) return d;
+                        }, function(error, classes) {
+                            if (error) throw error;
+
+                            var root = d3.hierarchy({
+                                    children: classes
+                                })
+                                .sum(function(d) {
+                                    return d.value;
+                                })
+                                .each(function(d) {
+                                    if (id = d.data.id) {
+                                        var id, i = id.lastIndexOf(".");
+                                        d.id = id;
+                                        d.package = id.slice(0, i);
+                                        d.class = id.slice(i + 1);
+                                    }
+                                });
+
+                            var node = svg.selectAll(".node")
+                                .data(pack(root).leaves())
+                                .enter().append("g")
+                                .attr("class", "node")
+                                .attr("transform", function(d) {
+                                    return "translate(" + d.x + "," + d.y + ")";
+                                });
+
+                            node.append("circle")
+                                .attr("id", function(d) {
+                                    return d.id;
+                                })
+                                .attr("r", function(d) {
+                                    return d.r;
+                                })
+                                .style("fill", function(d) {
+                                    return color(d.package);
+                                });
+
+                            node.append("clipPath")
+                                .attr("id", function(d) {
+                                    return "clip-" + d.id;
+                                })
+                                .append("use")
+                                .attr("xlink:href", function(d) {
+                                    return "#" + d.id;
+                                });
+
+                            node.append("text")
+                                .attr("clip-path", function(d) {
+                                    return "url(#clip-" + d.id + ")";
+                                })
+                                .selectAll("tspan")
+                                .data(function(d) {
+                                    return d.class.split(/(?=[A-Z][^A-Z])/g);
+                                })
+                                .enter().append("tspan")
+                                .attr("x", 0)
+                                .attr("y", function(d, i, nodes) {
+                                    return 0 + (i - nodes.length / 2 - 0.5) * 15;
+                                })
+                                .text(function(d) {
+                                    return d;
+                                });
+
+                            node.append("title")
+                                .text(function(d) {
+                                    return d.id + "\n" + format(d.value);
+                                });
+                        });
+                    </script>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+
+                <div>
+                    <p>According to the bubble chart, the largest amount of item is setting up a Hostel Development Fund, which is 12000 million dollars. The beneficiaries are UGC-funded universities. This means that Hong Kong Baptist University may be able
+                        to benefit from this proposal. It is a good news for all the following Hong Kong Baptist University’ s student since there are only two block of hostel buildings. The second one is increase of recurrent funding for the Hospital
+                        Authority to keep improving public healthcare services. The amount is 10830 million dollars. It is an annual amount for recurrent measure. The third one is continue to develop innovation and technology through the Innovation and
+                        Technology Fund (ITF). It includes launch of “Technology Talent Scheme” under the ITF; and enhancement of the “Internship Programme” under the ITF.
+                    </p>
+                </div>
+                <div>
+                    <p>The total financial implications of Policy Address major initiatives is 63,539 million dollars.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </body>
+ 
