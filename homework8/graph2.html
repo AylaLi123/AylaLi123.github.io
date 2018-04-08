@@ -30,11 +30,11 @@
     <script>
         var x = d3.scaleLinear()
             .domain([10000, 40000]) //range of  your raw data
-            .range([10, 50000]); //range of svg coordinates
+            .range([10, 500]); //range of svg coordinates
 
         var y = d3.scaleLinear()
             .domain([10000, 40000]) //range of  your raw data
-            .range([50000, 0]); //range of svg coordinates
+            .range([500, 0]); //range of svg coordinates
 
 
         var xAxis = d3.axisBottom().scale(x);
@@ -284,7 +284,7 @@
                     //return frameHeight - d['female'];
                 })
                 .attr('r', function(d) {
-                    return d['female'] / 10000;
+                    return d['female'] / 1000;
                     //return Math.sqrt(d['female']);
                 })
                 //.attr('fill', '#8000ff');
