@@ -1,96 +1,68 @@
-<head>
+<meta charset="utf-8">
+<style>
 
-</head>
-<script src="https://d3js.org/d3.v5.js"></script>
+.bar {
+  fill: steelblue;
+}
 
+.bar:hover {
+  fill: brown;
+}
 
+.axis--x path {
+  display: none;
+}
 
+</style>
+  <h1>Turnout Rate in Geographical Constituencies</h1>
 
-<body>
+<svg width="960" height="500"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
 
-    <script src="https://d3js.org/d3-array.v1.min.js"></script>
-    <script src="https://d3js.org/d3-collection.v1.min.js"></script>
-    <script src="https://d3js.org/d3-color.v1.min.js"></script>
-    <script src="https://d3js.org/d3-format.v1.min.js"></script>
-    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
-    <script src="https://d3js.org/d3-time.v1.min.js"></script>
-    <script src="https://d3js.org/d3-time-format.v2.min.js"></script>
-    <script src="https://d3js.org/d3-scale.v2.min.js"></script>
+var svg = d3.select("svg"),
+    margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom;
 
+var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+    y = d3.scaleLinear().rangeRound([height, 0]);
 
+var g = svg.append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    <h1>Turnout Rate in Geographical Constituencies</h1>
+d3.tsv("data1.tsv", function(d) {
+  d.rate = +d.rate;
+  return d;
+}, function(error, data) {
+  if (error) throw error;
 
-    <style>
-        svg {
-            width: 2000px;
-            height: 3000px;
-        }
-    </style>
+  x.domain(data.map(function(d) { return d.area; }));
+  y.domain([0, d3.max(data, function(d) { return d.rate; })]);
 
-    <script>
+  g.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
 
+  g.append("g")
+      .attr("class", "axis axis--y")
+      .call(d3.axisLeft(y).ticks(10, "%"))
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+      .attr("text-anchor", "end")
+      .text("Rate");
 
-        var x = d3.scaleLinear()
-            .domain([0, 250]) //range of  your raw data
-            .range([10, 310]); //range of svg coordinates
+  g.selectAll(".bar")
+    .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.area); })
+      .attr("y", function(d) { return y(d.rate); })
+      .attr("width", x.bandwidth())
+      .attr("height", function(d) { return height - y(d.rate); });
+});
 
-        var y = d3.scaleLinear()
-            .domain([0, 500]) //range of  your raw data
-            .range([200, 0]); //range of svg coordinates
-
-
-        var xAxis = d3.axisBottom().scale(x);
-        var yAxis = d3.axisLeft().scale(y);
-
-        var svg = d3.select('svg');
-        //svg.remove.();
-
-        svg.append('g')
-            .attr('transform', 'translate(20,200)') //translate(x,y)
-            .call(xAxis)
-            .append("text")
-            .text("Area");
-
-        svg.append('g')
-            .attr('transform', 'translate(30,0)') //translate(x,y)
-            .call(yAxis.ticks(10, "%"));
-
-        var dataset = 
-            [{'area':'HONG KONG ISLAND', 
-                'rate': 0.6074,
-            }],
-            [{'area':'KOWLOON WEST',
-                'rate': 0.5813,
-            }],
-            [{'area':'KOWLOON EAST',
-                'rate': 0.5598,
-            }],
-            [{'area':'NEW TERRITORIES WEST',
-                'rate': 0.5643,
-            }],
-            [{'area':'NEW TERRITORIES EAST', 
-                'rate': 0.6024,
-            }];
-       
-
-
-        var frameHeight = 150;
-        
-        svg
-            .selectAll(".bar")
-            .data(dataset)
-            .enter()
-            .append("rect")
-            .attr("x", function(d) { 
-            return d['area']; 
-        })
-            .attr("y", function(d) { 
-            return frameHeight - d['rate']; 
-        })
-            .attr("width", x.bandwidth())
-            .attr("height", function(d) { 
-            return frameHeight - d['area']; 
-        });
-
-   </script>
+</script>
