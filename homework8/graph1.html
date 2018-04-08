@@ -29,6 +29,8 @@
     </style>
 
     <script>
+
+
         var x = d3.scaleLinear()
             .domain([0, 250]) //range of  your raw data
             .range([10, 310]); //range of svg coordinates
@@ -46,54 +48,53 @@
 
         svg.append('g')
             .attr('transform', 'translate(20,200)') //translate(x,y)
-            .call(xAxis);
+            .call(xAxis)
+            .append("text")
+            .text("Area");
 
         svg.append('g')
             .attr('transform', 'translate(30,0)') //translate(x,y)
-            .call(yAxis);
+            .call(yAxis.ticks(10, "%"))
 
 
+    .
         var dataset = [
-            ['HONG KONG ISLAND', [{
-                'number': 627807,
+            [{'area':'HONG KONG ISLAND', 
                 'rate': 0.6074,
-            } ]],
-            ['KOWLOON WEST', [{
-                'number': 488129,
+            }],
+            [{'area':'KOWLOON WEST',
                 'rate': 0.5813,
-            }]],
-            ['KOWLOON EAST', [{
-                'number': 601567,
+            }],
+            [{'area':'KOWLOON EAST',
                 'rate': 0.5598,
-            }]],
-            ['NEW TERRITORIES WEST', [{
-                'number': 1086511,
+            }],
+            [{'area':'NEW TERRITORIES WEST',
                 'rate': 0.5643,
-            }]],
-            ['NEW TERRITORIES EAST', [{
-                'number': 975071,
+            }],
+            [{'area':'NEW TERRITORIES EAST', 
                 'rate': 0.6024,
-            }]],   
+            }],   
         ]
 
 
         var frameHeight = 150;
-
+        
         svg
-           .selectAll('circle')
-           .data(dataset)
-           .enter()
-           .append('circle')
-           .attr('cx', function(d) {
-               return d['height'];
-           })
-           .attr('cy', function(d) {
-               return frameHeight - d['weight'];
-           })
-           .attr('r', function(d) {
-               //return d['weight'] / 10;
-               return Math.sqrt(d['weight'] / 10);
-           })
-          .attr('fill', 'blue');
+            .selectAll(".bar")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("x", function(d) { 
+            return d['area']; 
+        })
+            .attr("y", function(d) { 
+            return frameHeight - d['rate']; 
+        })
+            .attr("width", x.bandwidth())
+            .attr("height", function(d) { 
+            return frameHeight - d['area']; 
+        });
+});
+
 
    </script>
