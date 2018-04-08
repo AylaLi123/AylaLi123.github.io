@@ -44,11 +44,11 @@
 }
 
 </style>
-<svg id= chart1 width="500" height="600"></svg>
+<svg id= "chart1" width="500" height="600"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
 
-var svg = d3.select("svg"),
+var chart1 = d3.select("svg"),
     margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = +svg.attr("width") - margin.left - margin.right,
     height = +svg.attr("height") - margin.top - margin.bottom;
@@ -107,11 +107,11 @@ d3.csv("expenditure.csv", function(d) {
 		<div><h2>Policy Address Major Initiatives</h></div>
 		<div id = chart></div>
 		
-	<svg id = chart2 width="500" height="500"  font-family="sans-serif" font-size="20" text-anchor="middle" ></svg>
+	<svg id = "chart2" width="500" height="500"  font-family="sans-serif" font-size="20" text-anchor="middle" ></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
 
-var svg = d3.select("svg"),
+var chart2 = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
