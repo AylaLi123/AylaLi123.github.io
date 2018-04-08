@@ -1,0 +1,168 @@
+<head>
+
+</head>
+<script src="https://d3js.org/d3.v5.js"></script>
+
+
+
+
+<body>
+
+    <script src="https://d3js.org/d3-array.v1.min.js"></script>
+    <script src="https://d3js.org/d3-collection.v1.min.js"></script>
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-format.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-time.v1.min.js"></script>
+    <script src="https://d3js.org/d3-time-format.v2.min.js"></script>
+    <script src="https://d3js.org/d3-scale.v2.min.js"></script>
+
+
+
+    <h1>Turnout Rate in Geographical Constituencies</h1>
+
+    <style>
+        svg {
+            width: 2000px;
+            height: 3000px;
+        }
+    </style>
+
+    <script>
+        var x = d3.scaleLinear()
+            .domain([0, 250]) //range of  your raw data
+            .range([10, 310]); //range of svg coordinates
+
+        var y = d3.scaleLinear()
+            .domain([0, 1000000]) //range of  your raw data
+            .range([200, 0]); //range of svg coordinates
+
+
+        var xAxis = d3.axisBottom().scale(x);
+        var yAxis = d3.axisLeft().scale(y);
+
+        var svg = d3.select('svg');
+        //svg.remove.();
+
+        svg.append('g')
+            .attr('transform', 'translate(20,200)') //translate(x,y)
+            .call(xAxis);
+
+        svg.append('g')
+            .attr('transform', 'translate(30,0)') //translate(x,y)
+            .call(yAxis);
+
+
+        var dataset = [
+            ['HONG KONG ISLAND', [{
+                'number': 627807,
+                'rate': 0.6074,
+            } ]],
+            [KOWLOON WEST, [{
+                'number': 488129,
+                'rate': 0.5813,
+            }]],
+            [KOWLOON EAST, [{
+                'number': 601567,
+                'rate': 0.5598,
+            }]],
+            [NEW TERRITORIES WEST	, [{
+                'number': 1086511,
+                'rate': 0.5643,
+            }]],
+            [NEW TERRITORIES EAST	, [{
+                'number': 975071,
+                'rate': 0.6024,
+            }]],
+            
+            
+        ]
+
+
+        var frameHeight = 150;
+
+        svg
+            .selectAll('circle')
+            .data(dataset[0][1])
+            .enter()
+            .append('circle')
+            .attr('cx', function(d) {
+                return x(d['height']);
+            })
+            .attr('cy', function(d) {
+                return y(d['weight']);
+                //return frameHeight - d['weight'];
+            })
+            .attr('r', function(d) {
+                //return d['weight'] / 10;
+                return Math.sqrt(d['weight']);
+            })
+            .attr('fill', '#FF0000');
+
+        var keySnapshot = 0;
+
+        d3.interval(function() {
+            keySnapshot = (keySnapshot + 1) % dataset.length;
+            svg
+                .selectAll('circle')
+                .data(dataset[keySnapshot][1])
+                .transition()
+                .duration(1000)
+                .attr('cx', function(d) {
+                    return x(d['height']);
+                })
+                .attr('cy', function(d) {
+                    return y(d['weight']);
+                    //return frameHeight - d['weight'];
+                })
+                .attr('r', function(d) {
+                    return d['weight'] / 10;
+                    //return Math.sqrt(d['weight']);
+                })
+                //.attr('fill', '#8000ff');
+
+
+        }, 1000)
+    </script>
+
+
+
+
+    <!-- svg.append('circle').attr('cx', 170).attr('cy', 70).attr('r', 10); 
+        svg.append('circle').attr('cx', 160).attr('cy', 50).attr('r', 10); 
+        svg.append('circle').attr('cx', 180).attr('cy', 70).attr('r', 10); 
+        svg.append('circle').attr('cx', 180).attr('cy',
+        80).attr('r', 10); 
+        <script> -->
+    <!--    var svg = d3.select('svg');
+                 svg.remove.();
+             var data = [{
+                         'height': 170,
+                         'weight': 70,
+    
+                }, {
+                      'height': 160,
+                      'weight': 50,
+    
+                  }, {
+                     'height': 180,
+                     'weight': 70,
+    
+                   }, {
+                      'height': 180,
+                    'weight': 80,
+    
+              }
+    
+               ];
+    
+                var frameHeight = 150;
+               for (i = 0; i < data.length; i++) {
+                    i = 0;
+                   var x = data[i]['height'];
+                    var y = frameHeight - data[i]['wieght'];
+                   svg.append('circle').attr('cx', x).attr('cy', y).attr('r', 5);
+                }
+            -->
+
+</body>
