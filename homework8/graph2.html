@@ -29,11 +29,11 @@
 
     <script>
         var x = d3.scaleLinear()
-            .domain([4000, 40000]) //range of  your raw data
+            .domain([1000, 40000]) //range of  your raw data
             .range([0, 500]); //range of svg coordinates
 
         var y = d3.scaleLinear()
-            .domain([4000, 40000]) //range of  your raw data
+            .domain([1000, 40000]) //range of  your raw data
             .range([500, 0]); //range of svg coordinates
 
 
@@ -44,11 +44,11 @@
         //svg.remove.();
 
         svg.append('g')
-            .attr('transform', 'translate(40,400)') //translate(x,y)
+            .attr('transform', 'translate(40,600)') //translate(x,y)
             .call(xAxis);
 
         svg.append('g')
-            .attr('transform', 'translate(60,0)') //translate(x,y)
+            .attr('transform', 'translate(40,0)') //translate(x,y)
             .call(yAxis);
       
         var dataset = [
@@ -258,7 +258,7 @@
                 return x(d['male']);
             })
             .attr('cy', function(d) {
-                return y(d['femalet']);
+                return y(d['female']);
                 //return frameHeight - d['female'];
             })
             .attr('r', function(d) {
