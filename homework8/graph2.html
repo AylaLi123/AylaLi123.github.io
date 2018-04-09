@@ -281,8 +281,8 @@
                     return x(d['male']);
                 })
                 .attr('cy', function(d) {
-                    //return y(d['female']);
-                    return frameHeight - d['female'];
+                    return y(d['female']);
+                    //return frameHeight - d['female'];
                 })
                 .attr('r', function(d) {
                     return d['female'] / 1000;
