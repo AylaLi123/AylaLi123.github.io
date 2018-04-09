@@ -44,7 +44,7 @@
         //svg.remove.();
 
         svg.append('g')
-            .attr('transform', 'translate(40,600)') //translate(x,y)
+            .attr('transform', 'translate(40,500)') //translate(x,y)
             .call(xAxis);
 
         svg.append('g')
@@ -271,6 +271,7 @@
 
         d3.interval(function() {
             keySnapshot = (keySnapshot + 1) % dataset.length;
+            
             svg
                 .selectAll('circle')
                 .data(dataset[keySnapshot][1])
@@ -280,8 +281,8 @@
                     return x(d['male']);
                 })
                 .attr('cy', function(d) {
-                    return y(d['female']);
-                    //return frameHeight - d['female'];
+                    //return y(d['female']);
+                    return frameHeight - d['female'];
                 })
                 .attr('r', function(d) {
                     return d['female'] / 1000;
