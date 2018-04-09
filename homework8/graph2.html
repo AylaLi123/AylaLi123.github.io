@@ -30,11 +30,11 @@
     <script>
         var x = d3.scaleLinear()
             .domain([4000, 40000]) //range of  your raw data
-            .range([0, 500]); //range of svg coordinates
+            .range([0, 50]); //range of svg coordinates
 
         var y = d3.scaleLinear()
             .domain([4000, 40000]) //range of  your raw data
-            .range([500, 0]); //range of svg coordinates
+            .range([50, 0]); //range of svg coordinates
 
 
         var xAxis = d3.axisBottom().scale(x);
@@ -44,7 +44,7 @@
         //svg.remove.();
 
         svg.append('g')
-            .attr('transform', 'translate(20,200)') //translate(x,y)
+            .attr('transform', 'translate(30,40000)') //translate(x,y)
             .call(xAxis);
 
         svg.append('g')
