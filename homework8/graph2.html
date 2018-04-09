@@ -42,6 +42,8 @@
 
         var svg = d3.select('#chart1');
         //svg.remove.();
+        
+
 
         svg.append('g')
             .attr('transform', 'translate(40,500)') //translate(x,y)
@@ -266,7 +268,9 @@
                 return Math.sqrt(d['female']);
             })
             .attr('fill', '#FF0000')
-        .attr('transform', 'translate(40,0)');
+        .attr('transform', function(d) {
+        return 'translate(' + (xScale(d[0]) + padding.left) + ',' + (yScale(d[1]) + padding.top) + ')'
+    });
         
         
 
@@ -295,6 +299,7 @@
 
 
         }, 1000)
+
     </script>
 
 
