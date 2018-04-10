@@ -1,69 +1,151 @@
 <meta charset="utf-8">
-<style>
-
-.bar {
-  fill: steelblue;
-}
-
-.bar:hover {
-  fill: brown;
-}
-
-.axis--x path {
-  display: none;
-}
-
-</style>
 
 <h1>Turnout Rate in Geographical Constituencies</h1>
 
 <svg id="chart1"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
-<script>
+<script type="text/javascript">
+ 
+var margins={
+            top: 50,
+            right: 50,
+            bottom: 100,
+            left: 60
+        }
+var height = 450 - margins.left - margins.right,
+    width = 850 - margins.top - margins.bottom,
+    barPadding = 8
+// Create a scale for the y-axis based on data
+// >> Domain - min and max values in the dataset
+// >> Range - physical range of the scale (reversed)
+var yScale = d3.scaleLinear() // d3.scale.linear()
+            .domain([0, d3.max(dataset, function(d) {
+                return d.amount;
+            })])
+            .range([height, 0]);
+// Implements the scale as an actual axis
+// >> Orient - places the axis on the left of the graph
+// >> Ticks - number of points on the axis, automated
+// var yAxis = d3.svg.axis()
+//     .scale(yScale)
+//     .orient('left')
+//     .ticks(6);
+yAxis = d3.axisLeft()
+            .scale(yScale)
+            .ticks(6);
 
-var svg = d3.select('#chart1'),
-    margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = +svg.attr("width") - margin.left - margin.right,
-    height = +svg.attr("height") - margin.top - margin.bottom;
+        // Creates a scale for the x-axis based on city names
+        var xScale = d3.scaleBand()
+            .domain(dataset.map(function(d) {
+                return d.area;
+            }))
+            .range([0, width])
+            .round(.1);
 
-var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-    y = d3.scaleLinear().rangeRound([height, 0]);
 
-var g = svg.append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        // Creates an axis based off the xScale properties
+        var xAxis = d3.axisBottom()
+            .scale(xScale);
 
-d3.csv("data1.csv", function(d) {
-  d.rate = +d.rate;
-  return d;
-}, function(error, data) {
-  if (error) throw error;
+        var color = d3.scaleOrdinal(d3.schemeCategory20);
+        // Creates the initial space for the chart
+        // >> Select - grabs the empty <div> above this script
+        // >> Append - places an <svg> wrapper inside the div
+        // >> Attr - applies our height & width values from above
+        var chart = d3.select('#main')
+            .append('svg')
+            .attr('width', width + margins.left + margins.right)
+            .attr('height', height + margins.top + margins.bottom)
+            .append('g')
+            .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')');
 
-  x.domain(data.map(function(d) { return d.area; }));
-  y.domain([0, d3.max(data, function(d) { return d.rate; })]);
 
-  g.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
+        // For each value in our dataset, places and styles a bar on the chart
 
-  g.append("g")
-      .attr("class", "axis axis--y")
-      .call(d3.axisLeft(y).ticks(10, "%"))
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .attr("text-anchor", "end")
-      .text("Rate");
+        // Step 1: selectAll.data.enter.append
+        // >> Loops through the dataset and appends a rectangle for each value
+        chart.selectAll('rect')
+            .data(dataset)
+            .enter()
+            .append('rect')
 
-  g.selectAll(".bar")
-    .data(data)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d.area); })
-      .attr("y", function(d) { return y(d.rate); })
-      .attr("width", x.bandwidth())
-      .attr("height", function(d) { return height - y(d.rate); });
-});
+        // Step 2: X & Y
+        // >> X - Places the bars in horizontal order, based on number of
+        //        points & the width of the chart
+        // >> Y - Places vertically based on scale
+        .attr('x', function(d, i) {
+                return xScale(d.area);
+            })
+            .attr('y', function(d) {
+                return yScale(d.amount);
+            })
+
+        // Step 3: Height & Width
+        // >> Width - Based on barpadding and number of points in dataset
+        // >> Height - Scale and height of the chart area
+        .attr('width', (width / dataset.length) - barPadding)
+            .attr('height', function(d) {
+                return height - yScale(d.amount);
+            })
+            .attr("fill", function(d, i) {
+                return color(i);
+            });
+        // .attr('fill', 'steelblue')
+
+        // Step 4: Info for hover interaction
+        //   .attr('class', function(d){
+        //     return d.area;
+        //   })
+        //   .attr('id', function(d){
+        //     return d.amount;
+        //   });
+
+        // Renders the yAxis once the chart is finished
+        // >> Moves it to the left 10 pixels so it doesn't overlap
+        chart.append('g')
+            .attr('class', 'axis')
+            .attr('transform', 'translate(-10, 0)')
+            .call(yAxis);
+
+        // Appends the yAxis
+        chart.append('g')
+            .attr('class', 'axis')
+            .attr('transform', 'translate(0,' + (height + 10) + ')')
+            .call(xAxis);
+
+        // Adds yAxis title
+        chart.append('text')
+            .text('Revenue in billions')
+            .attr('transform', 'translate(-60, -20)');
+        // .style("font-family","Sans-serif")
+
+
+        chart.selectAll("annotation")
+            .data(dataset)
+            .enter()
+            .append("text")
+            .attr("class", "annotation")
+            .text(function(d) {
+                return d.amount;
+            })
+            .attr("x", function(d) {
+                return xScale(d.area) + 40
+            })
+            .attr("y", function(d) {
+                return yScale(d.amount) - 10;
+            })
+            .style("fill", "black");
+
+
+        // $(function() {
+        //     // On document load, call the render() function to load the graph
+        //     render();
+
+        //     $('rect').mouseenter(function() {
+        //         $('#city').html(this.className.animVal);
+        //         $('#inches').html($(this).attr('id'));
+        //     });
+    </script>
+
 
 </script>
