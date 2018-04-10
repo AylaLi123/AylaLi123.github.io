@@ -7,7 +7,7 @@
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script type="text/javascript">
  
-var svg = d3.select('#chart1');
+
 var dataset= [{
  "area":"Hong Kong Island",
  "rate":0.6074
@@ -71,7 +71,7 @@ yAxis = d3.axisLeft()
         // >> Select - grabs the empty <div> above this script
         // >> Append - places an <svg> wrapper inside the div
         // >> Attr - applies our height & width values from above
-        var chart = d3.select('#main')
+        var chart = d3.select('#chart1')
             .append('svg')
             .attr('width', width + margins.left + margins.right)
             .attr('height', height + margins.top + margins.bottom)
