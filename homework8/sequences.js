@@ -28,7 +28,13 @@ var colors = {
     // "other": "#a173d1",
     // "end": "#bbbbbb"
     "male": "#1f77b4",
-    "female": "#ff7f0e"
+    "female": "#ff7f0e",
+    "Hong Kong Island":"#2ca02c",
+    "Kowloon East":"#9467bd",
+    "Kowloon West":"#8c564b",
+    "New Territories East":"#e377c2",
+    "New Territories West":"#7f7f7f"
+   
 
 };
 
