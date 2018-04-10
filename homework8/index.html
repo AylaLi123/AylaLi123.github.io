@@ -142,6 +142,7 @@ yAxis = d3.axisLeft()
         //.attr('id', function(d){
         // return d.rate.ticks(10, "%");
         //});
+	
         // Renders the yAxis once the chart is finished
         // >> Moves it to the left 10 pixels so it doesn't overlap
         chart.append('g')
@@ -155,7 +156,7 @@ yAxis = d3.axisLeft()
             .call(xAxis);
         // Adds yAxis title
         chart.append('text')
-            .text('Revenue in billions')
+            .text('Voters in Percentage')
             .attr('transform', 'translate(-60, -20)');
         // .style("font-family","Sans-serif")
         chart.selectAll("annotation")
