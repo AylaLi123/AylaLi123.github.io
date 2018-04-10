@@ -214,5 +214,345 @@ yAxis = d3.axisLeft()
         d3.select(self.frameElement).style("height", "700px");
     </script>
 <!-- bubble chart -->
+	
+<script src="https://d3js.org/d3.v5.js"></script>
+
+    <script src="https://d3js.org/d3-array.v1.min.js"></script>
+    <script src="https://d3js.org/d3-collection.v1.min.js"></script>
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-format.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-time.v1.min.js"></script>
+    <script src="https://d3js.org/d3-time-format.v2.min.js"></script>
+    <script src="https://d3js.org/d3-scale.v2.min.js"></script>
+<div class="main">
+<div id="chart">
+
+    <h1> 2016 Legislative Council Election Age Group and Sex of Voter Turnout by Geographical Constituency</h1>
+
+	
+    <svg id= "chart2" width="5000"  height="5000" x="10" y="10"></svg>
+	</div>
+	</div>
+
+    <script>
+        var x = d3.scaleLinear()
+            .domain([1000, 40000]) //range of  your raw data
+            .range([0, 500]); //range of svg coordinates
+        var y = d3.scaleLinear()
+            .domain([1000, 45000])//range of  your raw data
+            .range([500, 0]); //range of svg coordinates
+        var xAxis = d3.axisBottom().scale(x);
+        var yAxis = d3.axisLeft().scale(y);
+        var svg = d3.select('#chart2');
+        //svg.remove.();
+        
+        svg.append('g')
+            .attr("class", "axis")
+            .attr('transform', 'translate(40,500)') //translate(x,y)
+            //.attr("transform", "translate(" + x + "," + y + ")")
+            //.attr('transform', 'translate(' + padding.left + ',' + (height - padding.bottom) + ')')
+            .call(xAxis);
+        
+//         svg.append("g")
+//     .attr("class", "axis")
+//     .attr("transform", "translate(" + x + "," + y + ")")
+//     .call(xAxis);
+        svg.append('g')
+            //.attr('class','axis')
+            .attr('transform', 'translate(40,0)') //translate(x,y)
+            .call(yAxis);
+      
+        var dataset = [
+            [18-20, [{
+                'male': 4993,
+                'female': 4736,
+            }, {
+                'male': 4088,
+                'female': 3865,
+            }, {
+                'male': 5871,
+                'female': 5756,
+            }, {
+                'male': 11138,
+                'female': 10383,
+            }, {
+                'male': 10759,
+                'female': 10250,
+            }, ]],
+            [21-25, [{
+                'male': 10071,
+                'female': 10078,
+            }, {
+                'male': 8204,
+                'female': 7937,
+            }, {
+                'male': 11585,
+                'female': 11119,
+            }, {
+                'male': 23184,
+                'female': 22190,
+            }, {
+                'male': 22279,
+                'female': 21403,
+            }, ]],
+            [26-30, [{
+                'male': 11241,
+                'female': 11279,
+            }, {
+                'male': 8778,
+                'female': 8524,
+            }, {
+                'male': 10979,
+                'female': 9986,
+            }, {
+                'male': 22296,
+                'female': 21031,
+            }, {
+                'male': 23498,
+                'female': 22576,
+            }, ]],
+          [31-35, [{
+                'male': 11883,
+                'female': 11871 ,
+            }, {
+                'male': 9693,
+                'female': 9106,
+            }, {
+                'male': 10686,
+                'female':9757,
+            }, {
+                'male': 22563,
+                'female': 21607,
+            }, {
+                'male': 23894,
+                'female': 22763,
+            }, ]],
+          [36-40, [{
+                'male': 12837,
+                'female':13547 ,
+            }, {
+                'male': 10260,
+                'female': 10298,
+            }, {
+                'male': 10860,
+                'female':10333,
+            }, {
+                'male': 22824,
+                'female': 22381,
+            }, {
+                'male': 21097,
+                'female': 21296,
+            }, ]],
+          [41-45, [{
+                'male': 14760,
+                'female':16818 ,
+            }, {
+                'male': 12077,
+                'female':12890,
+            }, {
+                'male': 12004,
+                'female':12815,
+            }, {
+                'male': 23298,
+                'female': 25150,
+            }, {
+                'male':21133,
+                'female': 23762,
+            }, ]],
+          [46-50, [{
+                'male': 16626,
+                'female':19225 ,
+            }, {
+                'male':12703,
+                'female':13730,
+            }, {
+                'male': 14025,
+                'female':15737,
+            }, {
+                'male': 25514,
+                'female': 30202,
+            }, {
+                'male':23633,
+                'female': 28375,
+            }, ]],
+          [51-55, [{
+                'male': 20970,
+                'female':23873 ,
+            }, {
+                'male':14127,
+                'female':15297,
+            }, {
+                'male': 17839,
+                'female':19775,
+            }, {
+                'male': 33717,
+                'female': 37737,
+            }, {
+                'male':32735,
+                'female': 37342,
+            }, ]],
+          [56-60, [{
+                'male': 22163,
+                'female':23789,
+            }, {
+                'male':15310,
+                'female':15619,
+            }, {
+                'male': 18296,
+                'female':19338,
+            }, {
+                'male': 37074,
+                'female': 36443,
+            }, {
+                'male':37294,
+                'female': 37438,
+            }, ]],
+          [61-65, [{
+                'male': 19387,
+                'female':20009,
+            }, {
+                'male':13406,
+                'female':13884,
+            }, {
+                'male': 14890,
+                'female':15914,
+            }, {
+                'male': 30077,
+                'female': 28770,
+            }, {
+                'male':28866,
+                'female': 27367,
+            }, ]],
+          [66-70, [{
+                'male': 17251,
+                'female':16835,
+            }, {
+                'male':12152,
+                'female':12566,
+            }, {
+                'male': 14890,
+                'female':15914,
+            }, {
+                'male': 13426,
+                'female': 14197,
+            }, {
+                'male':22188,
+                'female': 19012,
+            }, ]],
+          [71, [{
+                'male': 24612,
+                'female':22375,
+            }, {
+                'male':20659,
+                'female':18462,
+            }, {
+                'male': 26267,
+                'female':25123,
+            }, {
+                'male': 33285,
+                'female': 26845,
+            }, {
+                'male':26593,
+                'female': 21626,
+            }, ]],
+        ];
+        var frameHeight = 150;
+        svg
+            .selectAll('circle')
+            .data(dataset[0][1])
+            .enter()
+            .append('circle')
+            .attr('cx', function(d) {
+                return x(d['male']);
+            })
+            .attr('cy', function(d) {
+                return y(d['female']);
+                //return frameHeight - d['female'];
+            })
+            .attr('r', function(d) {
+                //return d['female'] / 10;
+                return Math.sqrt(d['female']);
+            })
+            .attr('fill', '#FF0000')
+        .style({
+		stroke: 'green', 
+		'stroke-width': 5, 
+		opacity: .5
+	});
+        
+            //.attr('transform', function(d) {return 'translate(' + (xScale(d[0]) + padding.left) + ',' + (yScale(d[1]) + padding.top) + ')'});
+        
+        
+        var keySnapshot = 0;
+        d3.interval(function() {
+            keySnapshot = (keySnapshot + 1) % dataset.length;
+            
+            svg
+                .selectAll('circle')
+                .data(dataset[keySnapshot][1])
+                .transition()
+                .duration(1000)
+                .attr('cx', function(d) {
+                    return x(d['male']);
+                })
+                .attr('cy', function(d) {
+                    return y(d['female']);
+                    //return frameHeight - d['female'];
+                })
+                .attr('r', function(d) {
+                    return d['female'] / 1000;
+                    //return Math.sqrt(d['female']);
+                })
+                .attr('fill', '#8000ff')
+            .style({
+		stroke: 'green', 
+		'stroke-width': 5, 
+		opacity: .5
+	})
+        }, 1000)
+    </script>
+
+
+
+
+    <!-- svg.append('circle').attr('cx', 170).attr('cy', 70).attr('r', 10); 
+        svg.append('circle').attr('cx', 160).attr('cy', 50).attr('r', 10); 
+        svg.append('circle').attr('cx', 180).attr('cy', 70).attr('r', 10); 
+        svg.append('circle').attr('cx', 180).attr('cy',
+        80).attr('r', 10); 
+        <script> -->
+    <!--    var svg = d3.select('svg');
+                 svg.remove.();
+             var data = [{
+                         'height': 170,
+                         'weight': 70,
+    
+                }, {
+                      'height': 160,
+                      'weight': 50,
+    
+                  }, {
+                     'height': 180,
+                     'weight': 70,
+    
+                   }, {
+                      'height': 180,
+                    'weight': 80,
+    
+              }
+    
+               ];
+    
+                var frameHeight = 150;
+               for (i = 0; i < data.length; i++) {
+                    i = 0;
+                   var x = data[i]['height'];
+                    var y = frameHeight - data[i]['wieght'];
+                   svg.append('circle').attr('cx', x).attr('cy', y).attr('r', 5);
+                }
+            -->
+
+</body>
 	</body>
 
