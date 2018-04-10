@@ -185,6 +185,34 @@ yAxis = d3.axisLeft()
 	
 	
 <!-- pie chart -->
+<script src="//d3js.org/d3.v4.min.js"></script>
+
+    <link rel="stylesheet" href="sequences.css" />
+	 <div class="main">
+         <h1>Age Group and Sex of Voter Turnout by Geographical Constituency in 2016 Legislative Council Selection</h1>
+        <h3>Here are two charts shows where the money goes, raw data are from government website. Though these data are not user-friendly, when you try to group them into ten big categories(support,affairs,economic,education,environment,health,housing,infrastructure,security,welfare).</h3>
+        <h3>What I am trying to do here is classifying the detailed spendings into ten categories, according to two given elements: the bureau which spend the money, the exact percentages of each categories. After a lot of guessing and assisting from speclists, I control the error percentages under 0.5%, and here are the demo just for reference. </h3>
+
+        <div id="sequence"></div>
+        <div id="chart">
+            <div id="explanation" style="visibility: hidden;">
+                <span id="percentage"></span><br/> 
+                of Voter Turnout in 2016 Legislative Council Selection
+
+
+            </div>
+        </div>
+    </div>
+    <div class="sidebar">
+        <input type="checkbox" id="togglelegend"> Sex<br/>
+        <div id="legend" style="visibility: hidden;"></div>
+    </div>
+
+    <script type="text/javascript" src="sequences.js"></script>
+    <script type="text/javascript">
+        // Hack to make this example display correctly in an iframe on bl.ocks.org
+        d3.select(self.frameElement).style("height", "700px");
+    </script>
 <!-- bubble chart -->
 	</body>
 
