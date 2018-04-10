@@ -23,16 +23,15 @@
 
 <div class="container">
 <div class="row">
-<div class="col-md-8" id="main">
+<div id="main">
 <h1 style="text-align:center; font-size:26">2016 Legislative Council Election Turnout Rate in Geographical Constituencies<span class="small">(Percentage)</span></h1>
 </div>
-<div class="col-md-4" style="background-color: #bfbfbf">
+<div id="body">
 <p>Among all the five geographical constituencies, Hong Kong Island has the highest cumulative turnout rate, which is 60.74%. 
 <br>Kowloon East has the lowest cumulative turnout rate, which is 55.98%. 
 <br>In 2016, the overall number of registered electors is 3,779,085. 
 <br>The total number of voter turnout is 2,202,283, which the cumulative turnout rate is 58.28%.
 </p>
-
 </div>
 </div>
 	
@@ -67,7 +66,7 @@ var margins={
             left: 60
         }
 var height = 400 - margins.left - margins.right,
-    width = 800 - margins.top - margins.bottom,
+    width = 950 - margins.top - margins.bottom,
     barPadding = 8
 // Create a scale for the y-axis based on data
 // >> Domain - min and max values in the dataset
