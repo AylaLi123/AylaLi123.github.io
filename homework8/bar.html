@@ -1,7 +1,7 @@
 <meta charset="utf-8">
 
 <h1>Turnout Rate in Geographical Constituencies</h1>
-<svg id="chart1"></svg>
+<svg id="chart1" height="1000" width="1000"></svg>
 
 <script src="https://d3js.org/d3.v5.js"></script>	
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -31,8 +31,8 @@ var margins={
             bottom: 100,
             left: 60
         }
-var height = 1000 - margins.left - margins.right,
-    width = 1000 - margins.top - margins.bottom,
+var height = 400 - margins.left - margins.right,
+    width = 800 - margins.top - margins.bottom,
     barPadding = 8
 // Create a scale for the y-axis based on data
 // >> Domain - min and max values in the dataset
