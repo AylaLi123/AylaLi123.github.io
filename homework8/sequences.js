@@ -17,15 +17,19 @@ var b = {
 
 // Mapping of step names to colors.
 // 定义页面对应的颜色值
+
+
+
 var colors = {
-//   "home": "#5687d1",
-//   "product": "#7b615c",
-//   "search": "#de783b",
-//   "account": "#6ab975",
-//   "other": "#a173d1",
-//   "end": "#bbbbbb"
-  "male":"#5687d1",
-  "female":"#7b615c"
+    // "home": "#5687d1",
+    // "product": "#7b615c",
+    // "search": "#de783b",
+    // "account": "#6ab975",
+    // "other": "#a173d1",
+    // "end": "#bbbbbb"
+    "male": "#1f77b4",
+    "female": "#ff7f0e"
+
 };
 
 // Total size of all segments; we set this later, after loading the data.
@@ -50,7 +54,6 @@ var vis = d3
 var partition = d3.partition()
     //设置布局的尺寸，由于是圆形的布局方式，因此尺寸大小通过[2 * Math.PI, radius * radius]确定
     .size([2 * Math.PI, radius * radius]);
-    //.value(function(d) { return d.size; });
 
 // 定义一个圆弧生成器
 var arc = d3.arc()
@@ -77,25 +80,35 @@ var arc = d3.arc()
 // }
 
 
-// Use d3.text and d3.csv.parseRows so that we do not need to have a header
-// 将文本文件按行转换为数组
-// row, and can receive the csv as an array of arrays.
-d3.text("age-group.csv", function(text) {
-  var csv = d3.csv.parseRows(text);
-   // 将数组文件转换为以root为根节点的树形层次结构
-  var json = buildHierarchy(csv);
-      // 将树形结构的数据构造成可以用于可视化的形式
-  createVisualization(json);
+d3.text("age_group.csv", function(text) {
+    // 将文本文件按行转换为数组
+    var csv = d3.csvParseRows(text);
+
+    // 将数组文件转换为以root为根节点的树形层次结构
+    var json = buildHierarchy(csv);
+    // 将树形结构的数据构造成可以用于可视化的形式
+    createVisualization(json);
 });
+
+// d3.csv("/data/visit_sequences.csv", function(data) {
+//     console.log(data[0]);
+//     // 将数组文件转换为以root为根节点的树形层次结构
+//     var json = buildHierarchy(data);
+//     // 将树形结构的数据构造成可以用于可视化的形式
+//     createVisualization(json);
+
+// });
 
 // Main function to draw and set up the visualization, once we have the data.
 // 该方法用来将数据构造成可用于可视化的形式
 function createVisualization(json) {
+
     // Basic setup of page elements.
     // 初始化光芒图左上角的表示页面访问序列的元素
     initializeBreadcrumbTrail();
     // 绘制图例legend
     drawLegend();
+
     // 切换是否显示图例
     d3.select("#togglelegend").on("click", toggleLegend);
 
@@ -111,49 +124,53 @@ function createVisualization(json) {
         .sum(function(d) { return d.size; })
         .sort(function(a, b) { return b.value - a.value; });
 
-  // For efficiency, filter nodes to keep only those large enough to see.
-  var nodes = partition(root).descendants()
-      .filter(function(d) {
-        // 弧度大于0.005的节点保留
-      return (d.dx > 0.005); // 0.005 radians = 0.29 degrees
-      });
+    // For efficiency, filter nodes to keep only those large enough to see.
+    // 为了提高效率，将值过于小的节点过滤掉，只留较大节点进行显示
+    // partition()将root数据进行分区布局，类似树型结构，然后通过descendants将布局后的
+    // 数据结构按照从根节点开始，以拓扑顺序跟随子节点进行排序，最后返回拓扑排序的节点数组
+    var nodes = partition(root).descendants()
+        .filter(function(d) {
+            // 弧度大于0.005的节点保留
+            return (d.x1 - d.x0 > 0.005); // 0.005 radians = 0.29 degrees
+        });
 
-     // 绘制圆弧
-  var path = vis.data([json]).selectAll("path")
-      .data(nodes)
-      .enter().append("svg:path")
-      .attr("display", function(d) { return d.depth ? null : "none"; })
-      .attr("d", arc)
-      .attr("fill-rule", "evenodd")
-      .style("fill", function(d) { return colors[d.data.name]; })
-      .style("opacity", 1)
-      .on("mouseover", mouseover);
+    // 绘制圆弧
+    var path = vis.data([json]).selectAll("path")
+        .data(nodes)
+        .enter().append("svg:path")
+        .attr("display", function(d) { return d.depth ? null : "none"; })
+        .attr("d", arc)
+        .attr("fill", "grey")
+        .style("fill", function(d) { return colors[d.data.name]; })
+        .style("opacity", 1)
+        .on("mouseover", mouseover);
 
-  // Add the mouseleave handler to the bounding circle.
+    // Add the mouseleave handler to the bounding circle.
     // 设置鼠标离开的事件监听
     d3.select("#container").on("mouseleave", mouseleave);
 
-  // Get total size of the tree = value of root node from partition.
-  totalSize = path.datum().value;
- };
+    // Get total size of the tree = value of root node from partition.
+    totalSize = path.datum().value;
+};
 
 // Fade all but the current sequence, and show it in the breadcrumb trail.
 // 鼠标移动在当前节点上时，显示当前节点的路径，并且将该路径显示在左上角的序列中
 function mouseover(d) {
-  // 计算当前节点占比
-  var percentage = (100 * d.value / totalSize).toPrecision(3);
-  var percentageString = percentage + "%";
-  if (percentage < 0.1) {
-    percentageString = "< 0.1%";
-  }
+    // 计算当前节点占比
+    var percentage = (100 * d.value / totalSize).toPrecision(3);
+    var percentageString = percentage + "%";
+    if (percentage < 0.1) {
+        percentageString = "< 0.1%";
+    }
     // 左上角的序列中显示当前节点的百分比文字
-  d3.select("#percentage")
-      .text(percentageString);
+    d3.select("#percentage")
+        .text(percentageString);
 
-  d3.select("#explanation")
-      .style("visibility", "");
+    // 填充圆弧中心的解释性文字
+    d3.select("#explanation")
+        .style("visibility", "");
 
-// ancestors()从当前节点开始，返回祖先节点的数组，一直到根节点结束
+    // ancestors()从当前节点开始，返回祖先节点的数组，一直到根节点结束
     // reverse()将该数组反转
     var sequenceArray = d.ancestors().reverse();
     // 反转后根节点位于第一个位置，将其移除
@@ -174,16 +191,14 @@ function mouseover(d) {
         })
         .style("opacity", 1);
 }
-
 // Restore everything to full opacity when moving off the visualization.
 // 当鼠标离开时，将所有的元素恢复为透明度为1的状态
 function mouseleave(d) {
 
-  // Hide the breadcrumb trail
-      // 将左上角的序列隐藏
-  d3.select("#trail")
-      .style("visibility", "hidden");
-
+    // Hide the breadcrumb trail
+    // 将左上角的序列隐藏
+    d3.select("#trail")
+        .style("visibility", "hidden");
 
     // Deactivate all segments during transition.
     // 先停止在鼠标移动经过节点时的动作监听
@@ -203,8 +218,6 @@ function mouseleave(d) {
     d3.select("#explanation")
         .style("visibility", "hidden");
 }
-
-
 // 该方法用来初始化光芒图的左上角的用于辅助显示访问序列的元素
 function initializeBreadcrumbTrail() {
     // Add the svg area.
@@ -223,7 +236,6 @@ function initializeBreadcrumbTrail() {
         .style("fill", "#000");
 }
 
-
 // Generate a string that describes the points of a breadcrumb polygon.
 // 生成绘制左上角序列多边形图形的路径数据
 function breadcrumbPoints(d, i) {
@@ -239,7 +251,6 @@ function breadcrumbPoints(d, i) {
     }
     return points.join(" ");
 }
-
 // Update the breadcrumb trail to show the current sequence and percentage.
 // 根据当前鼠标悬浮的节点的路径，更新左上角的序列
 function updateBreadcrumbs(nodeArray, percentageString) {
@@ -259,7 +270,7 @@ function updateBreadcrumbs(nodeArray, percentageString) {
     // 根据节点的个数在生成对应的显示node的元素节点数目
     var entering = trail.enter().append("svg:g");
 
-// 绘制左上角的序列的图形，以多边形polygon元素来绘制
+    // 绘制左上角的序列的图形，以多边形polygon元素来绘制
     entering.append("svg:polygon")
         .attr("points", breadcrumbPoints)
         .style("fill", function(d) { return colors[d.data.name]; });
@@ -271,7 +282,7 @@ function updateBreadcrumbs(nodeArray, percentageString) {
         .attr("text-anchor", "middle")
         .text(function(d) { return d.data.name; });
 
- // Merge enter and update selections; set position for all nodes.
+    // Merge enter and update selections; set position for all nodes.
     entering.merge(trail).attr("transform", function(d, i) {
         return "translate(" + i * (b.w + b.s) + ", 0)";
     });
@@ -288,6 +299,7 @@ function updateBreadcrumbs(nodeArray, percentageString) {
         .style("visibility", "");
 
 }
+
 // 绘制图列
 function drawLegend() {
 
@@ -398,4 +410,3 @@ function buildHierarchy(csv) {
     }
     return root;
 };
-
