@@ -32,11 +32,153 @@
 <br>In 2016, the overall number of registered electors is 3,779,085. 
 <br>The total number of voter turnout is 2,202,283, which the cumulative turnout rate is 58.28%.
 </p>
-</div>
-//<div class="col-md-8"> //style="background-color: #bfbfbf"
-//<iframe src="AylaLi123.github.io/homework8/bar.html"></iframe>
 
-//</div>
 </div>
 </div>
+<svg id="chart1" height="500" width="500"></svg>
+
+<script src="https://d3js.org/d3.v5.js"></script>	
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script type="text/javascript">
+ 
+var dataset= [{
+ "area":"Hong Kong Island",
+ "rate":0.6074
+},{
+ "area":"Kowloon West",
+ "rate":0.5813
+},{
+ "area":"Kowloon East",
+  "rate":0.5598
+},{
+ "area":"New Territories West",
+   "rate":0.5643
+},{
+"area":"New Territories",
+ "rate":0.6024
+}]
+ 
+var margins={
+            top: 50,
+            right: 50,
+            bottom: 100,
+            left: 60
+        }
+var height = 400 - margins.left - margins.right,
+    width = 800 - margins.top - margins.bottom,
+    barPadding = 8
+// Create a scale for the y-axis based on data
+// >> Domain - min and max values in the dataset
+// >> Range - physical range of the scale (reversed)
+var yScale = d3.scaleLinear() // d3.scale.linear()
+            .domain([0, d3.max(dataset, function(d) {
+                return d.rate;
+            })])
+            .range([height, 0]);
+// Implements the scale as an actual axis
+// >> Orient - places the axis on the left of the graph
+// >> Ticks - number of points on the axis, automated
+// var yAxis = d3.svg.axis()
+//     .scale(yScale)
+//     .orient('left')
+//     .ticks(6);
+yAxis = d3.axisLeft()
+            .scale(yScale)
+            .ticks(10, "%");
+        // Creates a scale for the x-axis based on city names
+        var xScale = d3.scaleBand()
+            .domain(dataset.map(function(d) {
+                return d.area;
+            }))
+            .range([0, width])
+            .round(.1);
+        // Creates an axis based off the xScale properties
+        var xAxis = d3.axisBottom()
+            .scale(xScale);
+        var color = d3.scaleOrdinal(d3.schemeCategory20);
+        // Creates the initial space for the chart
+        // >> Select - grabs the empty <div> above this script
+        // >> Append - places an <svg> wrapper inside the div
+        // >> Attr - applies our height & width values from above
+        var chart = d3.select('#chart1')
+            .append('svg')
+            .attr('width', width + margins.left + margins.right)
+            .attr('height', height + margins.top + margins.bottom)
+            .append('g')
+            .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')');
+        // For each value in our dataset, places and styles a bar on the chart
+        // Step 1: selectAll.data.enter.append
+        // >> Loops through the dataset and appends a rectangle for each value
+        chart.selectAll('rect')
+            .data(dataset)
+            .enter()
+            .append('rect')
+        // Step 2: X & Y
+        // >> X - Places the bars in horizontal order, based on number of
+        //        points & the width of the chart
+        // >> Y - Places vertically based on scale
+        .attr('x', function(d, i) {
+                return xScale(d.area);
+            })
+            .attr('y', function(d) {
+                return yScale(d.rate);
+            })
+        // Step 3: Height & Width
+        // >> Width - Based on barpadding and number of points in dataset
+        // >> Height - Scale and height of the chart area
+        .attr('width', (width / dataset.length) - barPadding)
+            .attr('height', function(d) {
+                return height - yScale(d.rate);
+            })
+            .attr("fill", function(d, i) {
+                return color(i);
+            });
+        // .attr('fill', 'steelblue')
+        // Step 4: Info for hover interaction
+        //.attr('class', function(d){
+        //    return d.area;
+        //  })
+        //.attr('id', function(d){
+        // return d.rate.ticks(10, "%");
+        //});
+        // Renders the yAxis once the chart is finished
+        // >> Moves it to the left 10 pixels so it doesn't overlap
+        chart.append('g')
+            .attr('class', 'axis')
+            .attr('transform', 'translate(-10, 0)')
+            .call(yAxis);
+        // Appends the yAxis
+        chart.append('g')
+            .attr('class', 'axis')
+            .attr('transform', 'translate(0,' + (height + 10) + ')')
+            .call(xAxis);
+        // Adds yAxis title
+        chart.append('text')
+            .text('Revenue in billions')
+            .attr('transform', 'translate(-60, -20)');
+        // .style("font-family","Sans-serif")
+        chart.selectAll("annotation")
+            .data(dataset)
+            .enter()
+            .append("text")
+            .attr("class", "annotation")
+            .text(function(d) {
+                return d.rate;
+            })
+            .attr("x", function(d) {
+                return xScale(d.area) + 40
+            })
+            .attr("y", function(d) {
+                return yScale(d.rate) - 10;
+            })
+            .style("fill", "black");
+        // $(function() {
+        //     // On document load, call the render() function to load the graph
+        //     render();
+        //     $('rect').mouseenter(function() {
+        //         $('#city').html(this.className.animVal);
+        //         $('#inches').html($(this).attr('id'));
+        //     });
+    </script>
+	</body>
 
