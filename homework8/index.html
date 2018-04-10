@@ -6,15 +6,104 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+<script src="https://d3js.org/d3.v5.js"></script>	
+ <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+	
 </head>
-<script src="https://d3js.org/d3.v5.js"></script>
+
 
 
 <body>
-	<div class = "container">
-		  <div class="jumbotron">
-    <h1>Hong Kong district council elections</h1>
-   </div>
-		<div class= >
-    </div>
-<div
+<div class = "container">
+<div class="jumbotron">
+<h1>2016 Legislative Council Election</h1>
+</div>
+</div>
+
+<div class="container">
+<div class="row">
+<div class="col-md-8" id="main">
+<h1 style="text-align:center; font-size:26">2016 Legislative Council Election Turnout Rate in Geographical Constituencies<span class="small">(Percentage)</span></h1>
+</div>
+<div class="col-md-4" style="background-color: #bfbfbf">
+<p>Total government revenue in 2018-2019 is $604.5 billion.
+<br>The total revenue has increased 19% compared to 2017-2018.
+<br> Most of the revenue comes from profit taxs this year.
+<br> With a surplus of $138 billion, the government announced a series of giveaways and polices in different aspects.
+</p>
+</div>
+<div class="col-md-8"> //style="background-color: #bfbfbf"
+<style>
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+.axis--x path {
+  display: none;
+}
+
+</style>
+
+<h1>Turnout Rate in Geographical Constituencies</h1>
+
+<svg id="chart1"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+var svg = d3.select('#chart1'),
+    margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom;
+
+var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+    y = d3.scaleLinear().rangeRound([height, 0]);
+
+var g = svg.append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv("data1.csv", function(d) {
+  d.rate = +d.rate;
+  return d;
+}, function(error, data) {
+  if (error) throw error;
+
+  x.domain(data.map(function(d) { return d.area; }));
+  y.domain([0, d3.max(data, function(d) { return d.rate; })]);
+
+  g.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  g.append("g")
+      .attr("class", "axis axis--y")
+      .call(d3.axisLeft(y).ticks(10, "%"))
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+      .attr("text-anchor", "end")
+      .text("Rate");
+
+  g.selectAll(".bar")
+    .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.area); })
+      .attr("y", function(d) { return y(d.rate); })
+      .attr("width", x.bandwidth())
+      .attr("height", function(d) { return height - y(d.rate); });
+});
+
+</script>
+
+</div>
+</div>
+</div>
+
