@@ -25,7 +25,7 @@
         
        
     </style>
-    <svg id= "chart2" width="600"  height="500" x="10" y="10"></svg>
+    <svg id= "chart2" width="600"  height="500" ></svg>
 
     <script>
 	    
@@ -38,27 +38,41 @@
 var height = 600 - margins.left - margins.right,
     width = 500 - margins.top - margins.bottom,
     barPadding = 8
+
 	    
         var x = d3.scaleLinear()
-            .domain([1000, 40000]) //range of  your raw data
-            .range([0, 500]); //range of svg coordinates
+            //range of  your raw data
+	  .domain([0, d3.max(dataset, function(d) {
+                return d.male;
+            })])
+	 //range of svg coordinates
+            .range([0,width]);
+  
 
         var y = d3.scaleLinear()
-            .domain([1000, 45000])//range of  your raw data
-            .range([500, 0]); //range of svg coordinates
+            //range of  your raw data
+            .domain([0, d3.max(dataset, function(d) {
+                return d.female;
+            })])
+	 //range of svg coordinates
+            .range([height, 0]);
 
 
         var xAxis = d3.axisBottom().scale(x);
         var yAxis = d3.axisLeft().scale(y);
 
-        var svg = d3.select('#chart2');
+        var svg = d3.select('#chart2')
+	.attr('width', width + margins.left + margins.right)
+            .attr('height', height + margins.top + margins.bottom)
+            .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')');;
         //svg.remove.();
         
+	var color = d3.scaleOrdinal(d3.schemeCategory20);
 
 
         svg.append('g')
             .attr("class", "axis")
-            .attr('transform', 'translate(40,500)') //translate(x,y)
+            //.attr('transform', 'translate(40,500)') //translate(x,y)
             //.attr("transform", "translate(" + x + "," + y + ")")
             //.attr('transform', 'translate(' + padding.left + ',' + (height - padding.bottom) + ')')
             .call(xAxis);
@@ -70,7 +84,7 @@ var height = 600 - margins.left - margins.right,
 
         svg.append('g')
             //.attr('class','axis')
-            .attr('transform', 'translate(40,0)') //translate(x,y)
+            //.attr('transform', 'translate(40,0)') //translate(x,y)
             .call(yAxis);
       
         var dataset = [
@@ -288,11 +302,13 @@ var height = 600 - margins.left - margins.right,
                 return Math.sqrt(d['female']);
             })
             .attr('fill', '#FF0000')
-        .style({
-		stroke: 'green', 
-		'stroke-width': 5, 
-		opacity: .5
-	});
+           .attr('width', (width / dataset.length) - barPadding)
+            .attr('height', function(d) {
+                return height - y(d.female);
+            })
+            .attr("fill", function(d, i) {
+                return color(i);
+            });
         
             //.attr('transform', function(d) {return 'translate(' + (xScale(d[0]) + padding.left) + ',' + (yScale(d[1]) + padding.top) + ')'});
         
