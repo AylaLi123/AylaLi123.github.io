@@ -324,10 +324,10 @@ var color = d3.scaleOrdinal(d3.schemeCategory20);
             .enter()
             .append('circle')
             .attr('cx', function(d) {
-                return x(d['male']);
+                return xScale(d['male']);
             })
             .attr('cy', function(d) {
-                return y(d['female']);
+                return yScale(d['female']);
                 //return frameHeight - d['female'];
             })
             .attr('r', function(d) {
@@ -370,7 +370,7 @@ var color = d3.scaleOrdinal(d3.schemeCategory20);
                     return d['female'] / 1000;
                     //return Math.sqrt(d['female']);
                 })
-                .attr('fill', '#8000ff')
+//                 .attr('fill', '#8000ff')
   
         }, 1000)
 
