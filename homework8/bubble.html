@@ -42,18 +42,18 @@ var height = 600 - margins.left - margins.right,
 	    
         var x = d3.scaleLinear()
             //range of  your raw data
-	  .domain([0, d3.max(dataset, function(d) {
+	  .domain([0, d3.max(d3.values(dataset, function(d) {
                 return d.male;
-            })])
+            }))])
 	 //range of svg coordinates
             .range([0,width]);
   
 
         var y = d3.scaleLinear()
             //range of  your raw data
-            .domain([0, d3.max(dataset, function(d) {
+            .domain([0, d3.max(d3.values(dataset, function(d) {
                 return d.female;
-            })])
+            }))])
 	 //range of svg coordinates
             .range([height, 0]);
 
