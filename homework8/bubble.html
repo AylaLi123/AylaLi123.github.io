@@ -237,7 +237,7 @@ var height = 500 - margins.left - margins.right,
     barPadding = 8
 
 	    
-        var x = d3.scaleLinear()
+        var xScale = d3.scaleLinear()
             //range of  your raw data
 	  .domain([0, d3.max(dataset, function(d) {
                 return d.male;
