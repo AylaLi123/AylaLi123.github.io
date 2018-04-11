@@ -25,7 +25,7 @@
         
        
     </style>
-    <svg id= "chart2" width="600"  height="500" ></svg>
+    <svg id= "chart2" width="600"  height="800" ></svg>
 
     <script>
 	    
@@ -35,8 +35,8 @@
             bottom: 100,
             left: 60
         }
-var height = 600 - margins.left - margins.right,
-    width = 500 - margins.top - margins.bottom,
+var height = 800 - margins.left - margins.right,
+    width = 600 - margins.top - margins.bottom,
     barPadding = 8
 
 	    
@@ -72,7 +72,7 @@ var height = 600 - margins.left - margins.right,
 
         svg.append('g')
             .attr("class", "axis")
-            //.attr('transform', 'translate(40,500)') //translate(x,y)
+            .attr('transform', 'translate(40,500)') //translate(x,y)
             //.attr("transform", "translate(" + x + "," + y + ")")
             //.attr('transform', 'translate(' + padding.left + ',' + (height - padding.bottom) + ')')
             .call(xAxis);
@@ -83,8 +83,8 @@ var height = 600 - margins.left - margins.right,
 //     .call(xAxis);
 
         svg.append('g')
-            //.attr('class','axis')
-            //.attr('transform', 'translate(40,0)') //translate(x,y)
+            .attr('class','axis')
+            .attr('transform', 'translate(40,0)') //translate(x,y)
             .call(yAxis);
       
         var dataset = [
@@ -302,13 +302,7 @@ var height = 600 - margins.left - margins.right,
                 return Math.sqrt(d['female']);
             })
             .attr('fill', '#FF0000')
-           .attr('width', (width / dataset.length) - barPadding)
-            .attr('height', function(d) {
-                return height - y(d.female);
-            })
-            .attr("fill", function(d, i) {
-                return color(i);
-            });
+       ;
         
             //.attr('transform', function(d) {return 'translate(' + (xScale(d[0]) + padding.left) + ',' + (yScale(d[1]) + padding.top) + ')'});
         
@@ -336,13 +330,7 @@ var height = 600 - margins.left - margins.right,
                     //return Math.sqrt(d['female']);
                 })
                 .attr('fill', '#8000ff')
-            .style({
-		stroke: 'green', 
-		'stroke-width': 5, 
-		opacity: .5
-	})
-
-
+  
         }, 1000)
 
     </script>
