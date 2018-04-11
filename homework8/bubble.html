@@ -25,69 +25,13 @@
         
        
     </style>
-    <svg id= "chart2" width="800"  height="800" ></svg>
+   <svg id="chart2" height="500" width="500"></svg>
 
-    <script>
-	    
- var margins={
-            top: 50,
-            right: 50,
-            bottom: 100,
-            left: 60
-        }
-var height = 800 - margins.left - margins.right,
-    width = 800 - margins.top - margins.bottom,
-    barPadding = 8
+<script src="https://d3js.org/d3.v5.js"></script>	
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script type="text/javascript">
 
-	    
-        var x = d3.scaleLinear()
-            //range of  your raw data
-	  .domain([0, d3.max(d3.values(dataset, function(d) {
-                return d.male;
-            }))])
-	 //range of svg coordinates
-            .range([0,width]);
-  
-
-        var y = d3.scaleLinear()
-            //range of  your raw data
-            .domain([0, d3.max(d3.values(dataset, function(d) {
-                return d.female;
-            }))])
-	 //range of svg coordinates
-            .range([height, 0]);
-
-
-        var xAxis = d3.axisBottom().scale(x);
-        var yAxis = d3.axisLeft().scale(y);
-
-        var svg = d3.select('#chart2')
-	.attr('width', width + margins.left + margins.right)
-            .attr('height', height + margins.top + margins.bottom)
-            .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')');;
-        //svg.remove.();
-        
-	var color = d3.scaleOrdinal(d3.schemeCategory20);
-
-
-        svg.append('g')
-            .attr("class", "axis")
-            .attr('transform', 'translate(40,500)') //translate(x,y)
-            //.attr("transform", "translate(" + x + "," + y + ")")
-            //.attr('transform', 'translate(' + padding.left + ',' + (height - padding.bottom) + ')')
-            .call(xAxis);
-        
-//         svg.append("g")
-//     .attr("class", "axis")
-//     .attr("transform", "translate(" + x + "," + y + ")")
-//     .call(xAxis);
-
-        svg.append('g')
-            .attr('class','axis')
-            .attr('transform', 'translate(40,0)') //translate(x,y)
-            .call(yAxis);
-      
-        var dataset = [
+ var dataset = [
             [18-20, [{
                 'male': 4993,
                 'female': 4736,
@@ -281,6 +225,98 @@ var height = 800 - margins.left - margins.right,
                 'female': 21626,
             }, ]],
         ];
+	    
+ var margins={
+            top: 50,
+            right: 50,
+            bottom: 100,
+            left: 60
+        }
+var height = 500 - margins.left - margins.right,
+    width = 500 - margins.top - margins.bottom,
+    barPadding = 8
+
+	    
+        var x = d3.scaleLinear()
+            //range of  your raw data
+	  .domain([0, d3.max(dataset, function(d) {
+                return d.male;
+            }))])
+	 //range of svg coordinates
+            .range([0,width]);
+  
+
+//         var y = d3.scaleLinear()
+//             //range of  your raw data
+//             .domain([0, d3.max(d3.values(dataset, function(d) {
+//                 return d.female;
+//             }))])
+// 	 //range of svg coordinates
+//             .range([height, 0]);
+	
+	var yScale = d3.scaleLinear() // d3.scale.linear()
+            .domain([0, d3.max(dataset, function(d) {
+                return d.female;
+            })])
+            .range([height, 0]);
+	
+	// Implements the scale as an actual axis
+// >> Orient - places the axis on the left of the graph
+// >> Ticks - number of points on the axis, automated
+// var yAxis = d3.svg.axis()
+//     .scale(yScale)
+//     .orient('left')
+//     .ticks(6);
+yAxis = d3.axisLeft()
+            .scale(yScale)
+            .ticks(10, ".0s");
+
+xAxis = d3.axisBottom()
+            .scale(xScale)
+            .ticks(10, ".0s");
+
+var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+        var xAxis = d3.axisBottom().scale(x);
+        var yAxis = d3.axisLeft().scale(y);
+	
+	
+	
+	
+	
+
+        var svg = d3.select('#chart2')
+	    .append('svg')
+            .attr('width', width + margins.left + margins.right)
+            .attr('height', height + margins.top + margins.bottom)
+            .append('g')
+            .attr('transform', 'translate(' + margins.left + ',' + margins.top + ')');
+        //svg.remove.();
+        
+
+
+
+
+        
+//         svg.append("g")
+//     .attr("class", "axis")
+//     .attr("transform", "translate(" + x + "," + y + ")")
+//     .call(xAxis);
+
+        svg.append('g')
+            .attr('class','axis')
+            .attr('transform', 'translate(-10, 0)') //translate(x,y)
+            .call(yAxis);
+	
+          svg.append('g')
+            .attr("class", "axis")
+            .attr('transform', 'translate(0,' + (height + 10) + ')') //translate(x,y)
+            //.attr("transform", "translate(" + x + "," + y + ")")
+            //.attr('transform', 'translate(' + padding.left + ',' + (height - padding.bottom) + ')')
+            .call(xAxis);
+       svg.append('text')
+	.text('Female')
+	.attr('transform', 'translate(-60, -20)');
 
 
         var frameHeight = 150;
@@ -301,7 +337,15 @@ var height = 800 - margins.left - margins.right,
                 //return d['female'] / 10;
                 return Math.sqrt(d['female']);
             })
-            .attr('fill', '#FF0000')
+            .attr('width', function(d) {
+                return height - xScale(d.male);
+            })
+            .attr('height', function(d) {
+                return height - yScale(d.female);
+            })
+            .attr("fill", function(d, i) {
+                return color(i);
+            });
        ;
         
             //.attr('transform', function(d) {return 'translate(' + (xScale(d[0]) + padding.left) + ',' + (yScale(d[1]) + padding.top) + ')'});
