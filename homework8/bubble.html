@@ -360,10 +360,10 @@ var color = d3.scaleOrdinal(d3.schemeCategory20);
                 .transition()
                 .duration(1000)
                 .attr('cx', function(d) {
-                    return x(d['male']);
+                    return xScale(d['male']);
                 })
                 .attr('cy', function(d) {
-                    return y(d['female']);
+                    return yScale(d['female']);
                     //return frameHeight - d['female'];
                 })
                 .attr('r', function(d) {
