@@ -230,11 +230,11 @@
             top: 50,
             right: 50,
             bottom: 100,
-            left: 60
+            left: 50
         }
 var height = 600 - margins.left - margins.right,
     width = 600 - margins.top - margins.bottom,
-    barPadding = 1
+    padding = 1
 
 	    
         var xScale = d3.scaleLinear()
@@ -311,16 +311,18 @@ var color = d3.scaleOrdinal(d3.schemeCategory20);
 	
           svg.append('g')
             .attr("class", "axis")
-            .attr('transform', 'translate(0,' + (height + 10) + ')') //translate(x,y)
+	    .attr('transform', 'translate(' + padding.left + ',' + (height - padding.bottom) + ')')
+            //.attr('transform', 'translate(0,' + (height + 10) + ')') //translate(x,y)
             //.attr("transform", "translate(" + x + "," + y + ")")
             //.attr('transform', 'translate(' + padding.left + ',' + (height - padding.bottom) + ')')
             .call(xAxis);
+	
        svg.append('text')
-	.text('Female')
+	.text('Female(no. of voters)')
 	.attr('transform', 'translate(-60, -20)');
        svg.append('text')
-	.text('male')
-	.attr('transform', 'translate(60, 20)');
+	.text('male(no. of voters)')
+	.attr('transform', 'translate(600, 600)');
 
         var frameHeight = 150;
 
