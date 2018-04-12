@@ -25,7 +25,7 @@
         
        
     </style>
-   <svg id="chart2" height="500" width="500"></svg>
+   <svg id="chart2" height="600" width="600"></svg>
 
 <script src="https://d3js.org/d3.v5.js"></script>	
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -232,16 +232,18 @@
             bottom: 100,
             left: 60
         }
-var height = 500 - margins.left - margins.right,
-    width = 500 - margins.top - margins.bottom,
-    barPadding = 8
+var height = 600 - margins.left - margins.right,
+    width = 600 - margins.top - margins.bottom,
+    barPadding = 1
 
 	    
         var xScale = d3.scaleLinear()
             //range of  your raw data
-	  .domain([0, d3.max(dataset, function(d) {
-                return d.male;
-            })])
+	  .domain([0, 30000
+// 		   d3.max(dataset, function(d) {
+//                 return d.male;
+//             })
+		  ])
 	 //range of svg coordinates
             .range([0,width]);
   
@@ -255,9 +257,11 @@ var height = 500 - margins.left - margins.right,
 //             .range([height, 0]);
 	
 	var yScale = d3.scaleLinear() // d3.scale.linear()
-            .domain([0, d3.max(dataset, function(d) {
-                return d.female;
-            })])
+            .domain([0, 30000
+// 		     d3.max(dataset, function(d) {
+//                 return d.female;
+//             })
+		    ])
             .range([height, 0]);
 	
 	// Implements the scale as an actual axis
@@ -314,7 +318,9 @@ var color = d3.scaleOrdinal(d3.schemeCategory20);
        svg.append('text')
 	.text('Female')
 	.attr('transform', 'translate(-60, -20)');
-
+       svg.append('text')
+	.text('male')
+	.attr('transform', 'translate(60, 20)');
 
         var frameHeight = 150;
 
