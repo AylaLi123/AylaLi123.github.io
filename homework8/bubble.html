@@ -342,12 +342,12 @@ var color = d3.scaleOrdinal(d3.schemeCategory20);
                 //return d['female'] / 10;
                 return Math.sqrt(d['female']);
             })
-            .attr('width', function(d) {
-                return height - xScale(d.male);
-            })
-            .attr('height', function(d) {
-                return height - yScale(d.female);
-            })
+//             .attr('width', function(d) {
+//                 return height - xScale(d.male);
+//             })
+//             .attr('height', function(d) {
+//                 return height - yScale(d.female);
+//             })
             .attr("fill", function(d, i) {
                 return color(i);
             });
