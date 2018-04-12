@@ -35,17 +35,17 @@ var colors = {
     "New Territories East":"#e377c2",
     "New Territories West":"#7f7f7f",
     "Age 18 to 20": "#ffe6e6",
-"Age 21 to 25": "#ffb3b3",
-"Age 26 to 30": "#ff8080",
-"Age 31 to 35": "#ff4d4d",
-"Age 36 to 40": "#ff1a1a",
-"Age 41 to 45": " #ff0000",
-"Age 46 to 50": "#e60000",
-"Age 51 to 55": "#cc0000",
-"Age 56 to 60": "#b30000",
-"Age 61 to 65": "#990000",
-"Age 66 to 70": "#800000",
-"Age 71 or above": "#4d0000"
+    "Age 21 to 25": "#ffb3b3",
+    "Age 26 to 30": "#ff8080",
+    "Age 31 to 35": "#ff4d4d",
+    "Age 36 to 40": "#ff1a1a",
+    "Age 41 to 45": " #ff0000",
+    "Age 46 to 50": "#e60000",
+    "Age 51 to 55": "#cc0000",
+    "Age 56 to 60": "#b30000",
+    "Age 61 to 65": "#990000",
+    "Age 66 to 70": "#800000",
+    "Age 71 or above": "#4d0000"
    
 
 };
