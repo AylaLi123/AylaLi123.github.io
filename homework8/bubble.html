@@ -311,8 +311,8 @@ var color = d3.scaleOrdinal(d3.schemeCategory20);
 	
           svg.append('g')
             .attr("class", "axis")
-	    .attr('transform', 'translate(' + padding.left + ',' + (height - padding.bottom) + ')')
-            //.attr('transform', 'translate(0,' + (height + 10) + ')') //translate(x,y)
+	    //.attr('transform', 'translate(' + padding.left + ',' + (height - padding.bottom) + ')')
+            .attr('transform', 'translate(0,' + (height + 10) + ')') //translate(x,y)
             //.attr("transform", "translate(" + x + "," + y + ")")
             //.attr('transform', 'translate(' + padding.left + ',' + (height - padding.bottom) + ')')
             .call(xAxis);
@@ -322,7 +322,7 @@ var color = d3.scaleOrdinal(d3.schemeCategory20);
 	.attr('transform', 'translate(-60, -20)');
        svg.append('text')
 	.text('male(no. of voters)')
-	.attr('transform', 'translate(600, 600)');
+	.attr('transform', 'translate(580, 580)');
 
         var frameHeight = 150;
 
